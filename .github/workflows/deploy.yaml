@@ -6,6 +6,9 @@ on:
       - master
       - main
 
+env:
+  IMAGE_BASE: ghcr.io/${{ github.repository }}/bakveientilarbeid
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
@@ -42,7 +45,7 @@ jobs:
 
   deploy-dev:
     name: Deploy to dev
-    needs: build-and-push
+    needs: build-and-publish
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
