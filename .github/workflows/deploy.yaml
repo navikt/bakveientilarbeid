@@ -41,7 +41,7 @@ jobs:
         uses: navikt/pb-common-gh-actions/docker-publish@v2
         with:
           TAG_LATEST: "true"
-          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-dev:
     name: Deploy to dev
