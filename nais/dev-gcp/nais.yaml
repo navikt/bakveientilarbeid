@@ -21,6 +21,9 @@ spec:
   ingresses:
     - "https://dev.nav.no/bakveientilarbeid"
     - "https://bakveientilarbeid.dev.intern.nav.no/bakveientilarbeid"
+  env:
+    - name: CORS_ALLOWED_ORIGINS
+      value: dev.nav.no
   resources:
     limits:
       cpu: "3"
