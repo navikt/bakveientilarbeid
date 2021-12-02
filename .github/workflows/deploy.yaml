@@ -39,7 +39,7 @@ jobs:
 
       - name: Lag tag for image
         run: echo "TAG=$(git log -1 --pretty='%ad_%h' --date=format:'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-      
+
       - name: Lag full image referanse
         run: echo "IMAGE=$IMAGE_BASE:$TAG" >> $GITHUB_ENV
 
@@ -72,25 +72,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           DRY_RUN: false
-          RESOURCE: nais/nais-dev-gcp/nais.yaml
-
-
-
-
-
-#      - name: Sjekk om deploy til gcp i dev er mulig
-#        run: echo "DEV_GCP_PERSONBRUKER_CONFIG_DEFINED=$([[ -f ./nais/dev-gcp/nais.yaml ]] && echo 'true' || echo 'false')" >> $GITHUB_ENV
-#
-#      - name: 'Deploy-er til personbruker i dev-gcp'
-#        if: env.DEV_GCP_PERSONBRUKER_CONFIG_DEFINED == 'true'
-#        uses: 'nais/deploy/actions/deploy@v1'
-#        env:
-#          REF: ${{ github.sha }}
-#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#          CLUSTER: dev-gcp
-#          RESOURCE: ./nais/dev-gcp/nais.yaml
-#          VAR: version=${{ env.IMAGE }}
-#          PRINT_PAYLOAD: true
+          RESOURCE: nais/dev-gcp/nais.yaml
 
   deploy-prod:
     name: Deploy to prod-gcp
@@ -111,23 +93,8 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
-          DRY_RUN: false
-          RESOURCE: nais/nais-prod-fss.yaml
-
-
-#      - name: Sjekk om prodsetting i gcp er mulig
-#          run: echo "PROD_GCP_VARS_TEMPLATE_DEFINED=$([[ -f ./nais/prod-gcp/nais.yaml ]] && echo 'true' || echo 'false')" >> $GITHUB_ENV
-#
-#            - name: 'Deploy-er til personbruker i prod-gcp'
-#              if: env.PROD_GCP_VARS_TEMPLATE_DEFINED == 'true'
-#              uses: 'nais/deploy/actions/deploy@v1'
-#              env:
-#                REF: ${{ github.sha }}
-#                APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#                CLUSTER: prod-gcp
-#                RESOURCE: ./nais/prod-gcp/nais.yaml
-#                VAR: version=${{ env.IMAGE }}
-#                PRINT_PAYLOAD: true
+          DRY_RUN: true
+          RESOURCE: nais/prod-gcp/nais.yaml
 
   release:
     name: Tag and release
