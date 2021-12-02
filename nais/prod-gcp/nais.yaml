@@ -1,28 +1,28 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: tms-ktor-template
-  namespace: min-side
+  name: bakveientilarbeid
+  namespace: paw
   labels:
-    team: min-side
+    team: paw
 spec:
   envFrom:
-    - secret: tms-ktor-template-secrets
+    - secret: bakveientilarbeid-secrets
   image: {{version}}
   port: 8080
   liveness:
-    path: /tms-ktor-template/internal/isAlive
+    path: /bakveientilarbeid/internal/isAlive
     initialDelay: 10
   readiness:
-    path: /tms-ktor-template/internal/isReady
+    path: /bakveientilarbeid/internal/isReady
     initialDelay: 10
   replicas:
     min: 2
     max: 4
   webproxy: true
   ingresses:
-    - "https://person.nav.no/tms-ktor-template"
-    - "https://tms-ktor-template.intern.nav.no/tms-ktor-template"
+    - "https://person.nav.no/bakveientilarbeid"
+    - "https://bakveientilarbeid.intern.nav.no/bakveientilarbeid"
   resources:
     limits:
       cpu: "3"

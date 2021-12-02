@@ -1,6 +1,6 @@
-package no.nav.tms.template.config
+package no.nav.bakveientilarbeid.config
 
-import no.nav.tms.template.health.HealthService
+import no.nav.bakveientilarbeid.health.HealthService
 
 class ApplicationContext {
 

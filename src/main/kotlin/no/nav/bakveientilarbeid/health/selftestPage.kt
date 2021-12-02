@@ -1,12 +1,12 @@
-package no.nav.tms.template.health
+package no.nav.bakveientilarbeid.health
 
 import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.http.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.html.*
-import no.nav.tms.template.config.Environment
-import no.nav.tms.template.config.HttpClientBuilder
+import no.nav.bakveientilarbeid.config.Environment
+import no.nav.bakveientilarbeid.config.HttpClientBuilder
 
 suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = coroutineScope {
 
@@ -21,7 +21,7 @@ suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = co
     })
     {
         head {
-            title { +"Selftest tms-ktor-template" }
+            title { +"Selftest bakveientilarbeid" }
         }
         body {
             var text = if(hasFailedChecks) {
@@ -39,7 +39,7 @@ suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = co
             }
             table {
                 thead {
-                    tr { th { +"SELFTEST tms-ktor-template" } }
+                    tr { th { +"SELFTEST bakveientilarbeid" } }
                 }
                 tbody {
                     healthChecks.map {

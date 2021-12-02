@@ -1,4 +1,4 @@
-package no.nav.tms.template.config
+package no.nav.bakveientilarbeid.config
 
 import no.nav.personbruker.dittnav.common.util.config.StringEnvVar.getEnvVar
 

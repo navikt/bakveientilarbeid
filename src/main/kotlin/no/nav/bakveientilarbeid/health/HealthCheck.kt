@@ -1,4 +1,4 @@
-package no.nav.tms.template.health
+package no.nav.bakveientilarbeid.health
 
 interface HealthCheck {
 
