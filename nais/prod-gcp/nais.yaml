@@ -6,8 +6,6 @@ metadata:
   labels:
     team: paw
 spec:
-  envFrom:
-    - secret: bakveientilarbeid-secrets
   image: {{image}}
   port: 8080
   liveness:
