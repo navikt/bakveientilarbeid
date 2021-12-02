@@ -33,3 +33,7 @@ spec:
     requests:
       cpu: "500m"
       memory: 580Mi
+  accessPolicy:
+    inbound:
+      rules:
+        - application: veientilarbeid
