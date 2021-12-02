@@ -1,6 +1,7 @@
 package no.nav.bakveientilarbeid.config
 
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -8,10 +9,13 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.util.*
 import no.nav.bakveientilarbeid.health.healthApi
+import no.nav.bakveientilarbeid.hello.helloApi
+import no.nav.security.token.support.ktor.tokenValidationSupport
 
 @KtorExperimentalAPI
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
     val environment = Environment()
+    val config = this.environment.config
 
     install(DefaultHeaders)
 
@@ -25,8 +29,16 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         json(jsonConfig())
     }
 
+    install(Authentication) {
+        tokenValidationSupport(config = config)
+    }
+
     routing {
         healthApi(appContext.healthService)
+
+        authenticate {
+            helloApi()
+        }
     }
 
     configureShutdownHook(appContext.httpClient)

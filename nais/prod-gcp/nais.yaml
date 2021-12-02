@@ -21,6 +21,8 @@ spec:
   ingresses:
     - "https://www.nav.no/bakveientilarbeid"
     - "https://bakveientilarbeid.intern.nav.no/bakveientilarbeid"
+  envFrom:
+    - configmap: loginservice-idporten
   env:
     - name: CORS_ALLOWED_ORIGINS
       value: nav.no
