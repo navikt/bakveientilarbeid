@@ -1,17 +1,25 @@
 package no.nav.bakveientilarbeid.config
 
-import no.nav.personbruker.dittnav.common.util.config.StringEnvVar.getEnvVar
 
 data class Environment(
-    val corsAllowedOrigins: String = getEnvVar("CORS_ALLOWED_ORIGINS")
+    val corsAllowedOrigins: String = requireProperty("CORS_ALLOWED_ORIGINS")
 
-    // InfluxDB
-    /*
-    val influxdbHost: String = getEnvVar("INFLUXDB_HOST"),
-    val influxdbPort: Int = IntEnvVar.getEnvVarAsInt("INFLUXDB_PORT"),
-    val influxdbName: String = getEnvVar("INFLUXDB_DATABASE_NAME"),
-    val influxdbUser: String = getEnvVar("INFLUXDB_USER"),
-    val influxdbPassword: String = getEnvVar("INFLUXDB_PASSWORD"),
-    val influxdbRetentionPolicy: String = getEnvVar("INFLUXDB_RETENTION_POLICY"),
-    */
 )
+
+fun requireProperty(property: String) =
+    getPropertyOrNull(property) ?: throw IllegalStateException("Missing required property $property")
+
+fun getPropertyOrNull(property: String): String? =
+    System.getProperty(property, System.getenv(property))
+
+fun requireClusterName() =
+    requireProperty("NAIS_CLUSTER_NAME")
+
+fun requireApplicationName() =
+    requireProperty("NAIS_APP_NAME")
+
+fun applicationNameOrNull() =
+    getPropertyOrNull("NAIS_APP_NAME")
+
+fun isDevelopment(): Boolean =
+    requireClusterName().startsWith("dev")
