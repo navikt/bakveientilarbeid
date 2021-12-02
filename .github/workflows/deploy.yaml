@@ -44,7 +44,7 @@ jobs:
 
   deploy-dev:
     name: Deploy to dev
-    needs: test-build-and-push
+    needs: build-and-push
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
