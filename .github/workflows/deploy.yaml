@@ -72,7 +72,6 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: nais/dev-gcp/nais.yaml
-          VAR: image=${{ env.IMAGE }}
           DRY_RUN: false
 
   deploy-prod:
@@ -95,7 +94,6 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: nais/prod-gcp/nais.yaml
-          VAR: image=${{ env.IMAGE }}
           DRY_RUN: true
 
   release:

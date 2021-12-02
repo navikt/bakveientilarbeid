@@ -20,8 +20,6 @@ spec:
     min: 2
     max: 4
   webproxy: true
-  ingresses:
-
   resources:
     limits:
       cpu: "3"

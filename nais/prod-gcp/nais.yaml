@@ -20,9 +20,6 @@ spec:
     min: 2
     max: 4
   webproxy: true
-  ingresses:
-    - "https://person.nav.no/bakveientilarbeid"
-    - "https://bakveientilarbeid.intern.nav.no/bakveientilarbeid"
   resources:
     limits:
       cpu: "3"
