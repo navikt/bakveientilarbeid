@@ -8,7 +8,7 @@ metadata:
 spec:
   envFrom:
     - secret: bakveientilarbeid-secrets
-  image: {{version}}
+  image: {{image}}
   port: 8080
   liveness:
     path: /bakveientilarbeid/internal/isAlive
