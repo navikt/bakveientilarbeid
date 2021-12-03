@@ -39,3 +39,7 @@ spec:
     inbound:
       rules:
         - application: veientilarbeid
+    outbound:
+      rules:
+        - application: dp-innsyn
+          namespace: teamdagpenger
