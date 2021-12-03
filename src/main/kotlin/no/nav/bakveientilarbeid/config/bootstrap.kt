@@ -8,6 +8,7 @@ import io.ktor.http.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.util.*
+import no.nav.bakveientilarbeid.dagpenger.dagpengerApi
 import no.nav.bakveientilarbeid.health.healthApi
 import no.nav.bakveientilarbeid.hello.helloApi
 import no.nav.security.token.support.ktor.tokenValidationSupport
@@ -38,6 +39,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
 
         authenticate {
             helloApi()
+            dagpengerApi(appContext.dagpengerService)
         }
     }
 
