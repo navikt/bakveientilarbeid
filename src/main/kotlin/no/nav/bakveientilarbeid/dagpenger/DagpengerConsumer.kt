@@ -7,8 +7,7 @@ import java.net.URL
 
 class DagpengerConsumer(private val httpClient: HttpClient) {
     suspend fun hentSoknad(): Json {
-        return httpClient.get<Json>(SOKNAD_URL)
-
+        return httpClient.get(SOKNAD_URL)
     }
 
     companion object {
