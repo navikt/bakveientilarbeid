@@ -1,21 +1,23 @@
 package no.nav.bakveientilarbeid.health
 
-import io.ktor.application.call
-import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respondText
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.response.*
 import io.ktor.routing.Routing
 import io.ktor.routing.get
+import no.nav.personbruker.dittnav.common.logging.util.logger
 
 fun Routing.healthApi(healthService: HealthService) {
 
     val pingJsonResponse = """{"ping": "pong"}"""
 
     get("/internal/ping") {
+        logger.info("ping")
         call.respondText(pingJsonResponse, ContentType.Application.Json)
     }
 
     get("/internal/isAlive") {
+        logger.info("isAlive")
         call.respondText(text = "ALIVE", contentType = ContentType.Text.Plain)
     }
 
