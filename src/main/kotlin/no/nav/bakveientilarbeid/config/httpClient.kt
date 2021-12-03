@@ -12,7 +12,7 @@ suspend inline fun <reified T> HttpClient.get(url: URL, accessToken: AccessToken
     request {
         url("$url")
         method = HttpMethod.Get
-        header(HttpHeaders.Authorization, "Bearer, ${accessToken.value}")
+        header(HttpHeaders.Authorization, "Bearer ${accessToken.value}")
     }
 }
 
