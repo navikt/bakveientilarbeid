@@ -2,12 +2,13 @@ package no.nav.bakveientilarbeid.dagpenger
 
 import io.ktor.client.*
 import kotlinx.serialization.json.Json
+import no.nav.bakveientilarbeid.auth.AccessToken
 import no.nav.bakveientilarbeid.config.get
 import java.net.URL
 
 class DagpengerConsumer(private val httpClient: HttpClient) {
-    suspend fun hentSoknad(): Json {
-        return httpClient.get(SOKNAD_URL)
+    suspend fun hentSoknad(userToken: AccessToken): Json {
+        return httpClient.get(SOKNAD_URL, userToken)
     }
 
     companion object {

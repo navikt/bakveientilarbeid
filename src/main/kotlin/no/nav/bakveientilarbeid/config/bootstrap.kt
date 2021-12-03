@@ -8,9 +8,12 @@ import io.ktor.http.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.util.*
+import io.ktor.util.pipeline.*
 import no.nav.bakveientilarbeid.dagpenger.dagpengerApi
 import no.nav.bakveientilarbeid.health.healthApi
 import no.nav.bakveientilarbeid.hello.helloApi
+import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
+import no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory
 import no.nav.security.token.support.ktor.tokenValidationSupport
 
 @KtorExperimentalAPI
@@ -51,3 +54,6 @@ private fun Application.configureShutdownHook(httpClient: HttpClient) {
         httpClient.close()
     }
 }
+
+val PipelineContext<Unit, ApplicationCall>.authenticatedUser: AuthenticatedUser
+    get() = AuthenticatedUserFactory.createNewAuthenticatedUser(call)
