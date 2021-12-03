@@ -17,6 +17,8 @@ spec:
   replicas:
     min: 2
     max: 4
+  tokenx:
+    enabled: true
   webproxy: true
   ingresses:
     - "https://www.nav.no/bakveientilarbeid"
