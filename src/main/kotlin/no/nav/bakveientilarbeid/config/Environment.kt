@@ -23,3 +23,9 @@ fun applicationNameOrNull() =
 
 fun isDevelopment(): Boolean =
     requireClusterName().startsWith("dev")
+
+fun ifDevelopment(block: () -> Any) {
+    if (isDevelopment()) {
+        run(block)
+    }
+}
