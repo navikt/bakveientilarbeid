@@ -15,7 +15,11 @@ class DagpengerService(
         val token = dagpengerTokendings.exchangeToken(user)
         logger.info("Fant tokenx for bruker $token")
         val jwt = parse(token.value)
-        ifDevelopment { logger.info(jwt.jwtClaimsSet.toString()) }
+        ifDevelopment {
+            logger.info(
+                jwt.header.toString() +
+                jwt.jwtClaimsSet.toString()
+            ) }
         logger.info("Henter dagpengesøknader for bruker")
         return dagpengerConsumer.hentSoknad(token)
     }
