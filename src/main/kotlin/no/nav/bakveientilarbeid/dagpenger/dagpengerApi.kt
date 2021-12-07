@@ -9,10 +9,7 @@ import no.nav.bakveientilarbeid.config.authenticatedUser
 fun Route.dagpengerApi(dagpengerService: DagpengerService) {
 
     get("/dagpenger/soknad") {
-         // token = tokenDingsService.getTOkenForDagpenger()
-        // dagpengerService.getSoknadForUser(token)
-        call.respond(HttpStatusCode.OK, dagpengerService.hentSoknad(authenticatedUser))
-
+        call.respond(HttpStatusCode.OK, dagpengerService.hentSoknad(authenticatedUser).toString())
     }
 }
 
