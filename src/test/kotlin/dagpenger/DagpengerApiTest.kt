@@ -1,4 +1,0 @@
-package dagpenger
-
-class dagpengerApiTest {
-}

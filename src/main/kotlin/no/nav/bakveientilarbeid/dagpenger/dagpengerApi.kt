@@ -11,5 +11,9 @@ fun Route.dagpengerApi(dagpengerService: DagpengerService) {
     get("/dagpenger/soknad") {
         call.respond(HttpStatusCode.OK, dagpengerService.hentSoknad(authenticatedUser).toString())
     }
+
+    get("/dagpenger/vedtak") {
+        call.respond(HttpStatusCode.OK, dagpengerService.hentVedtak(authenticatedUser).toString())
+    }
 }
 
