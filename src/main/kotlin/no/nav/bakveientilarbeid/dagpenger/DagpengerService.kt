@@ -10,7 +10,7 @@ class DagpengerService(
     private val dagpengerConsumer: DagpengerConsumer,
     private val dagpengerTokendings: DagpengerTokendings
 ) {
-    suspend fun hentSoknad(user: AuthenticatedUser): Json {
+    suspend fun hentSoknad(user: AuthenticatedUser): String {
         logger.info("Henter tokenx for bruker")
         val token = dagpengerTokendings.exchangeToken(user)
         logger.info("Fant tokenx for bruker $token")

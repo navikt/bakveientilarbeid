@@ -7,7 +7,7 @@ import no.nav.bakveientilarbeid.config.get
 import java.net.URL
 
 class DagpengerConsumer(private val httpClient: HttpClient) {
-    suspend fun hentSoknad(userToken: AccessToken): Json {
+    suspend fun hentSoknad(userToken: AccessToken): String {
         return httpClient.get(SOKNAD_URL, userToken)
     }
 
