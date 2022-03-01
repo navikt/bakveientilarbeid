@@ -5,6 +5,9 @@ metadata:
   namespace: paw
   labels:
     team: paw
+  annotations:
+    config.linkerd.io/proxy-memory-limit: "512Mi"
+    config.linkerd.io/proxy-memory-request: "128Mi"
 spec:
   image: {{image}}
   port: 8080
