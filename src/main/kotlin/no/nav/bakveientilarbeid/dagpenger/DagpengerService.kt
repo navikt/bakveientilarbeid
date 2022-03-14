@@ -21,4 +21,10 @@ class DagpengerService(
         val token = hentToken(user)
         return dagpengerConsumer.hentVedtak(token)
     }
+
+    suspend fun hentPabegynteSoknader(user: AuthenticatedUser): String {
+        logger.info("Henter påbegynte søknader for bruker")
+        val token = hentToken(user)
+        return dagpengerConsumer.hentPabegynteSoknader(token)
+    }
 }
