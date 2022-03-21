@@ -7,7 +7,7 @@ import io.ktor.routing.Routing
 import io.ktor.routing.get
 import no.nav.personbruker.dittnav.common.logging.util.logger
 
-fun Routing.healthApi(healthService: HealthService) {
+fun Routing.healthRoute(healthService: HealthService) {
 
     val pingJsonResponse = """{"ping": "pong"}"""
 

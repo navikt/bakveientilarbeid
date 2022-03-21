@@ -7,7 +7,7 @@ import io.ktor.routing.*
 import no.nav.personbruker.dittnav.common.logging.util.logger
 
 
-fun Route.helloApi() {
+fun Route.helloRoute() {
 
     get("/is-authenticated") {
         logger.info("User is authenticated")

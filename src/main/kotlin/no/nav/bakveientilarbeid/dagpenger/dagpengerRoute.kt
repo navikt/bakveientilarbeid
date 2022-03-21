@@ -6,7 +6,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.bakveientilarbeid.config.authenticatedUser
 
-fun Route.dagpengerApi(dagpengerService: DagpengerService) {
+fun Route.dagpengerRoute(dagpengerService: DagpengerService) {
 
     get("/dagpenger/soknad") {
         call.respond(HttpStatusCode.OK, dagpengerService.hentSoknad(authenticatedUser).toString())

@@ -9,9 +9,9 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
-import no.nav.bakveientilarbeid.dagpenger.dagpengerApi
-import no.nav.bakveientilarbeid.health.healthApi
-import no.nav.bakveientilarbeid.hello.helloApi
+import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
+import no.nav.bakveientilarbeid.health.healthRoute
+import no.nav.bakveientilarbeid.hello.helloRoute
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory
 import no.nav.security.token.support.ktor.tokenValidationSupport
@@ -38,11 +38,11 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
     }
 
     routing {
-        healthApi(appContext.healthService)
+        healthRoute(appContext.healthService)
 
         authenticate {
-            helloApi()
-            dagpengerApi(appContext.dagpengerService)
+            helloRoute()
+            dagpengerRoute(appContext.dagpengerService)
         }
     }
 
