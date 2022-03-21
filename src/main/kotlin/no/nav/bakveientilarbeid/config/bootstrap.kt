@@ -11,7 +11,6 @@ import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
-import no.nav.bakveientilarbeid.hello.helloRoute
 import no.nav.bakveientilarbeid.http.jsonConfig
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory
@@ -42,7 +41,6 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         healthRoute(appContext.healthService)
 
         authenticate {
-            helloRoute()
             dagpengerRoute(appContext.dagpengerService)
         }
     }
