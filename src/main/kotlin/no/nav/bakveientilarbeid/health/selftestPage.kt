@@ -5,8 +5,6 @@ import io.ktor.html.*
 import io.ktor.http.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.html.*
-import no.nav.bakveientilarbeid.config.Environment
-import no.nav.bakveientilarbeid.config.HttpClientBuilder
 
 suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = coroutineScope {
 

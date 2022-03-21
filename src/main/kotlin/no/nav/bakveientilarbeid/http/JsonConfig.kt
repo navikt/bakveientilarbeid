@@ -1,4 +1,4 @@
-package no.nav.bakveientilarbeid.config
+package no.nav.bakveientilarbeid.http
 
 import kotlinx.serialization.json.Json
 

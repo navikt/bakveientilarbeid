@@ -1,9 +1,8 @@
 package no.nav.bakveientilarbeid.dagpenger
 
 import io.ktor.client.*
-import kotlinx.serialization.json.Json
 import no.nav.bakveientilarbeid.auth.AccessToken
-import no.nav.bakveientilarbeid.config.get
+import no.nav.bakveientilarbeid.http.get
 import java.net.URL
 
 class DagpengerConsumer(private val httpClient: HttpClient) {

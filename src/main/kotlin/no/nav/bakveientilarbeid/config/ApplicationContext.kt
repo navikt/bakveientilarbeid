@@ -4,6 +4,7 @@ import no.nav.bakveientilarbeid.dagpenger.DagpengerConsumer
 import no.nav.bakveientilarbeid.dagpenger.DagpengerService
 import no.nav.bakveientilarbeid.dagpenger.DagpengerTokendings
 import no.nav.bakveientilarbeid.health.HealthService
+import no.nav.bakveientilarbeid.http.HttpClientBuilder
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 
 class ApplicationContext {
