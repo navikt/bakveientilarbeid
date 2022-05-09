@@ -1,6 +1,10 @@
 name: Bygg og publiser docker-image for main
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main
+      - TokenXAuthorization-header
 
 
 env:
@@ -91,7 +95,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: nais/prod-gcp/nais.yaml
-          DRY_RUN: false
+          DRY_RUN: true
 
   release:
     name: Tag and release
