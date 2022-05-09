@@ -16,8 +16,8 @@ class MeldekortConsumer(private val httpClient: HttpClient) {
     }
 
     companion object {
-        private val MELDEKORT_URL = "http://${requireMeldekortAppName()}.meldekort.svc.cluster.local"
-        private val NESTE_MELDEKORT_URL =  URL("$MELDEKORT_URL/api/person/meldekort")
-        private val MELDEKORTSTATUS_URL = URL("$MELDEKORT_URL/api/person/meldekortstatus")
+        private val MELDEKORT_URL = "http://${requireMeldekortAppName()}.meldekort.svc.cluster.local/meldekort/meldekort-api/api/person"
+        private val NESTE_MELDEKORT_URL =  URL("$MELDEKORT_URL/meldekort")
+        private val MELDEKORTSTATUS_URL = URL("$MELDEKORT_URL/meldekortstatus")
     }
 }
