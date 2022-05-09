@@ -11,13 +11,13 @@ class MeldekortService(
     suspend fun hentToken(user: AuthenticatedUser) = meldekortTokendings.exchangeToken(user)
 
     suspend fun hentMeldekort(user: AuthenticatedUser): String {
-        logger.info("Henter siste meldekort for brukler")
+        logger.info("Henter siste meldekort for bruker")
         val token = hentToken(user)
         return meldekortConsumer.hentMeldekort(token)
     }
 
     suspend fun hentStatus(user: AuthenticatedUser): String {
-        logger.info("Henter siste meldekort-status for brukler")
+        logger.info("Henter siste meldekort-status for bruker")
         val token = hentToken(user)
         return meldekortConsumer.hentStatus(token)
     }
