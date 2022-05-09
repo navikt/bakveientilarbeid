@@ -8,7 +8,7 @@ import no.nav.bakveientilarbeid.config.authenticatedUser
 
 fun Route.meldekortRoute(meldekortService: MeldekortService) {
 
-    get("/meldekort/") {
+    get("/meldekort") {
         call.respond(HttpStatusCode.OK, meldekortService.hentMeldekort(authenticatedUser).toString())
     }
 
