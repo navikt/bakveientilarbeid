@@ -29,3 +29,6 @@ fun ifDevelopment(block: () -> Any) {
         run(block)
     }
 }
+
+fun requireMeldekortAppName() =
+    requireProperty("MELDEKORT_APP_NAME")
