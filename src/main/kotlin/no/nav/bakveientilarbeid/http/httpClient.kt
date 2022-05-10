@@ -20,7 +20,8 @@ suspend inline fun <reified T> HttpClient.getWithTokenX(url: URL, accessToken: A
     request {
         url("$url")
         method = HttpMethod.Get
-        header(TokenXHeader.Authorization, "Bearer ${accessToken.value}")
+        // header(TokenXHeader.Authorization, "Bearer ${accessToken.value}")
+        header("TokenXAuthorization", "Bearer ${accessToken.value}")
     }
 }
 suspend inline fun <reified T> HttpClient.post(url: URL): T = withContext(Dispatchers.IO) {
