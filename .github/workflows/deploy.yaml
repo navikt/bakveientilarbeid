@@ -1,6 +1,10 @@
 name: Bygg og publiser docker-image for main
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main
+      - TokenXAuthorization-header
 
 
 env:
@@ -53,7 +57,6 @@ jobs:
     name: Deploy to dev
     needs: build-and-publish
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/cors-support'
     steps:
       - uses: actions/checkout@v1
 
@@ -91,7 +94,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: nais/prod-gcp/nais.yaml
-          DRY_RUN: false
+          DRY_RUN: true
 
   release:
     name: Tag and release
