@@ -9,7 +9,7 @@ import java.net.URL
 
 class MeldekortConsumer(private val httpClient: HttpClient) {
     suspend fun hentMeldekort(userToken: AccessToken): String {
-        return httpClient.getWithTokenX(NESTE_MELDEKORT_URL, userToken )
+        return httpClient.getWithTokenX(NESTE_MELDEKORT_URL, userToken)
     }
 
     suspend fun hentStatus(userToken: AccessToken): String {
