@@ -2,7 +2,8 @@ package no.nav.bakveientilarbeid.config
 
 
 data class Environment(
-    val corsAllowedOrigins: String = requireProperty("CORS_ALLOWED_ORIGINS")
+    val corsAllowedOrigins: String = requireProperty("CORS_ALLOWED_ORIGINS"),
+    val corsAllowedSchemes: String = requireProperty("CORS_ALLOWED_SCHEMES")
 
 )
 
