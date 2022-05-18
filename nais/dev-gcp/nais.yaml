@@ -19,7 +19,6 @@ spec:
     max: 4
   tokenx:
     enabled: true
-  webproxy: true
   ingresses:
     - "https://arbeid.dev.nav.no/bakveientilarbeid"
     - "https://dev.nav.no/bakveientilarbeid"
