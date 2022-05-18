@@ -20,7 +20,7 @@ spec:
   tokenx:
     enabled: true
   ingresses:
-    - "https://person.dev.nav.no/bakveientilarbeid"
+    - "https://arbeid.dev.nav.no/bakveientilarbeid"
     - "https://bakveientilarbeid.dev.intern.nav.no/bakveientilarbeid"
   envFrom:
     - configmap: loginservice-idporten
