@@ -12,6 +12,7 @@ import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
 import no.nav.bakveientilarbeid.http.jsonConfig
 import no.nav.bakveientilarbeid.meldekort.meldekortRoute
+import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory
 import no.nav.security.token.support.ktor.tokenValidationSupport
@@ -42,6 +43,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         authenticate {
             dagpengerRoute(appContext.dagpengerService)
             meldekortRoute(appContext.meldekortService)
+            ptoProxyRoute(appContext.ptoProxyService)
         }
     }
 
