@@ -36,7 +36,7 @@ class PtoProxyConsumer(private val httpClient: HttpClient) {
     }
 
     companion object {
-        private const val PTO_PROXY_URL = "https://pto-proxy.dev.intern.nav.no/proxy"
+        private const val PTO_PROXY_URL = "https://pto-proxy.pto.svc.cluster.local/proxy"
         private val OPPFOLGING_URL = URL("$PTO_PROXY_URL/veilarboppfolging/api/oppfolging")
         private val UNDER_OPPFOLGING_URL = URL("$PTO_PROXY_URL/veilarboppfolging/api/niva3/underoppfolging")
         private val START_REGISTRERING_URL = URL("$PTO_PROXY_URL/veilarbregistrering/api/startregistrering")
