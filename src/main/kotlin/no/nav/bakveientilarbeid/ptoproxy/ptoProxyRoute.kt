@@ -25,7 +25,7 @@ fun Route.ptoProxyRoute(ptoProxyService: PtoProxyService) {
     }
 
     get("/dialog/antallUleste") {
-        call.respond(HttpStatusCode.OK, ptoProxyService.hentDialog(authenticatedUser).toString())
+        call.respond(HttpStatusCode.OK, ptoProxyService.hentUlesteDialoger(authenticatedUser).toString())
     }
 
     get("/vedtakinfo/besvarelse") {

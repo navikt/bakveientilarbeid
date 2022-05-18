@@ -23,7 +23,7 @@ class PtoProxyConsumer(private val httpClient: HttpClient) {
         return httpClient.getWithConsumerId(REGISTRERING_URL, userToken)
     }
 
-    suspend fun hentDialog(userToken: AccessToken): String {
+    suspend fun hentUlesteDialoger(userToken: AccessToken): String {
         return httpClient.getWithConsumerId(DIALOG_URL, userToken)
     }
 

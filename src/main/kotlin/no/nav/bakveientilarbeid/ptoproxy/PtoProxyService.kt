@@ -29,10 +29,10 @@ class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer){
         return ptoProxyConsumer.hentRegistrering(token)
     }
 
-    suspend fun hentDialog(user: AuthenticatedUser): String {
+    suspend fun hentUlesteDialoger(user: AuthenticatedUser): String {
         val token = AccessToken(user.token)
 
-        return ptoProxyConsumer.hentDialog(token)
+        return ptoProxyConsumer.hentUlesteDialoger(token)
     }
 
     suspend fun hentBesvarelse(user: AuthenticatedUser): String {
