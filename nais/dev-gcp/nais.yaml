@@ -19,17 +19,20 @@ spec:
     max: 4
   tokenx:
     enabled: true
-  webproxy: true
   ingresses:
-    - "https://dev.nav.no/bakveientilarbeid"
+    - "https://arbeid.dev.nav.no/bakveientilarbeid"
     - "https://bakveientilarbeid.dev.intern.nav.no/bakveientilarbeid"
   envFrom:
     - configmap: loginservice-idporten
   env:
     - name: CORS_ALLOWED_ORIGINS
       value: dev.nav.no
+    - name: CORS_ALLOWED_SCHEMES
+      value: https
     - name: MELDEKORT_APP_NAME
       value: "meldekort-api-q1"
+    - name: PTO_PROXY_URL
+      value: https://pto-proxy.dev.intern.nav.no/proxy
   resources:
     limits:
       cpu: "3"
