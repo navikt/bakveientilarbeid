@@ -29,5 +29,5 @@ class ApplicationContext {
     val healthService = HealthService(this)
     val dagpengerService = DagpengerService(dagpengerConsumer, dagpengerTokendings)
     val meldekortService = MeldekortService(meldekortConsumer, meldekortTokendings)
-    val ptoProxyService = PtoProxyService(ptoProxyConsumer);
+    val ptoProxyService = PtoProxyService(ptoProxyConsumer, ptoproxyTokendings);
 }
