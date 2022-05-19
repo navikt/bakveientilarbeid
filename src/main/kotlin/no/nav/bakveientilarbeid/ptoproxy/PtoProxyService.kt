@@ -8,13 +8,13 @@ class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer, private va
     suspend fun hentToken(user: AuthenticatedUser) = ptoProxyTokendings.exchangeToken(user)
 
     suspend fun hentOppfolgig(user: AuthenticatedUser): String {
-        val token = hentToken(user)
+        val token = AccessToken(user.token)
 
         return ptoProxyConsumer.hentOppfolging(token)
     }
 
     suspend fun hentUnderOppfolging(user: AuthenticatedUser): String {
-        val token = hentToken(user)
+        val token = AccessToken(user.token)
 
         return ptoProxyConsumer.hentUnderOppfolging(token)
     }
@@ -26,25 +26,25 @@ class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer, private va
     }
 
     suspend fun hentRegistrering(user: AuthenticatedUser): String {
-        val token = hentToken(user)
+        val token = AccessToken(user.token)
 
         return ptoProxyConsumer.hentRegistrering(token)
     }
 
     suspend fun hentUlesteDialoger(user: AuthenticatedUser): String {
-        val token = hentToken(user)
+        val token = AccessToken(user.token)
 
         return ptoProxyConsumer.hentUlesteDialoger(token)
     }
 
     suspend fun hentBesvarelse(user: AuthenticatedUser): String {
-        val token = hentToken(user)
+        val token = AccessToken(user.token)
 
         return ptoProxyConsumer.hentBesvarelse(token)
     }
 
     suspend fun hentMotestotte(user: AuthenticatedUser): String {
-        val token = hentToken(user)
+        val token = AccessToken(user.token)
 
         return ptoProxyConsumer.hentMotestotte(token)
     }
