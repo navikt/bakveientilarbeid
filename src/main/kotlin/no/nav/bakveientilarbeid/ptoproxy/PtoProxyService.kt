@@ -3,9 +3,8 @@ package no.nav.bakveientilarbeid.ptoproxy
 import no.nav.bakveientilarbeid.auth.AccessToken
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 
-class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer, private val ptoProxyTokendings: PtoProxyTokendings){
+class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer) {
 
-    suspend fun hentToken(user: AuthenticatedUser) = ptoProxyTokendings.exchangeToken(user)
 
     suspend fun hentOppfolgig(user: AuthenticatedUser): String {
         val token = AccessToken(user.token)
@@ -19,10 +18,8 @@ class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer, private va
         return ptoProxyConsumer.hentUnderOppfolging(token)
     }
 
-    suspend fun hentStartRegistrering(user: AuthenticatedUser): String {
-        val token = AccessToken(user.token)
-
-        return ptoProxyConsumer.hentStartRegistrering(token)
+    suspend fun hentStartRegistrering(user: AuthenticatedUser, token: String): String {
+        return ptoProxyConsumer.hentStartRegistrering(AccessToken(token))
     }
 
     suspend fun hentRegistrering(user: AuthenticatedUser): String {

@@ -36,6 +36,14 @@ suspend inline fun <reified T> HttpClient.getWithConsumerId(url: URL, accessToke
     }
 }
 
+suspend inline fun <reified T> HttpClient.getWithConsumerIdAndCookie(url: URL, accessToken: AccessToken): T = withContext(Dispatchers.IO) {
+    request {
+        url(url)
+        method = HttpMethod.Get
+        header(consumerIdHeaderName, consumerIdHeaderValue)
+    }
+}
+
 suspend inline fun <reified T> HttpClient.post(url: URL): T = withContext(Dispatchers.IO) {
     request {
         url("$url")

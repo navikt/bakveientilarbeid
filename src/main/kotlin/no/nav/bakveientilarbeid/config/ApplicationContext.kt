@@ -10,7 +10,6 @@ import no.nav.bakveientilarbeid.meldekort.MeldekortService
 import no.nav.bakveientilarbeid.meldekort.MeldekortTokendings
 import no.nav.bakveientilarbeid.ptoproxy.PtoProxyConsumer
 import no.nav.bakveientilarbeid.ptoproxy.PtoProxyService
-import no.nav.bakveientilarbeid.ptoproxy.PtoProxyTokendings
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 
 class ApplicationContext {
@@ -20,7 +19,6 @@ class ApplicationContext {
     val tokendingsService = TokendingsServiceBuilder.buildTokendingsService(maxCachedEntries = 5000)
     val dagpengerTokendings = DagpengerTokendings(tokendingsService)
     val meldekortTokendings = MeldekortTokendings(tokendingsService)
-    val ptoproxyTokendings = PtoProxyTokendings(tokendingsService)
 
     val dagpengerConsumer = DagpengerConsumer(httpClient)
     val meldekortConsumer = MeldekortConsumer(httpClient)
@@ -29,5 +27,5 @@ class ApplicationContext {
     val healthService = HealthService(this)
     val dagpengerService = DagpengerService(dagpengerConsumer, dagpengerTokendings)
     val meldekortService = MeldekortService(meldekortConsumer, meldekortTokendings)
-    val ptoProxyService = PtoProxyService(ptoProxyConsumer, ptoproxyTokendings);
+    val ptoProxyService = PtoProxyService(ptoProxyConsumer);
 }
