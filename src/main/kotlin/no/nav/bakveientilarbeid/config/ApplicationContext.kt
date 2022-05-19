@@ -13,7 +13,7 @@ import no.nav.bakveientilarbeid.ptoproxy.PtoProxyService
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
 
 class ApplicationContext {
-
+    val environment = Environment()
     val httpClient = HttpClientBuilder.build()
 
     val tokendingsService = TokendingsServiceBuilder.buildTokendingsService(maxCachedEntries = 5000)
@@ -22,7 +22,7 @@ class ApplicationContext {
 
     val dagpengerConsumer = DagpengerConsumer(httpClient)
     val meldekortConsumer = MeldekortConsumer(httpClient)
-    val ptoProxyConsumer = PtoProxyConsumer(httpClient)
+    val ptoProxyConsumer = PtoProxyConsumer(httpClient, environment.ptoProxyUrl)
 
     val healthService = HealthService(this)
     val dagpengerService = DagpengerService(dagpengerConsumer, dagpengerTokendings)

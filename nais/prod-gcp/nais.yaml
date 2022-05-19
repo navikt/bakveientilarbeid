@@ -35,6 +35,8 @@ spec:
       value: https
     - name: MELDEKORT_APP_NAME
       value: "meldekort-api"
+    - name: PTO_PROXY_URL
+      value: https://pto-proxy.intern.nav.no/proxy
   resources:
     limits:
       cpu: "3"
