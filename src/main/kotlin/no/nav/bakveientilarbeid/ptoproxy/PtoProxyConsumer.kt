@@ -3,6 +3,7 @@ package no.nav.bakveientilarbeid.ptoproxy
 import io.ktor.client.*
 import no.nav.bakveientilarbeid.auth.AccessToken
 import no.nav.bakveientilarbeid.http.getWithConsumerId
+import no.nav.bakveientilarbeid.http.getWithConsumerIdAndCookie
 import java.net.URL
 
 class PtoProxyConsumer(
@@ -27,7 +28,7 @@ class PtoProxyConsumer(
     }
 
     suspend fun hentStartRegistrering(userToken: AccessToken): String {
-        return httpClient.getWithConsumerId(START_REGISTRERING_URL, userToken)
+        return httpClient.getWithConsumerIdAndCookie(START_REGISTRERING_URL, userToken)
     }
 
     suspend fun hentRegistrering(userToken: AccessToken): String {
