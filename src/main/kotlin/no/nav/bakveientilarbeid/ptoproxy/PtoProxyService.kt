@@ -20,7 +20,7 @@ class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer, private va
     }
 
     suspend fun hentStartRegistrering(user: AuthenticatedUser): String {
-        val token = hentToken(user)
+        val token = AccessToken(user.token)
 
         return ptoProxyConsumer.hentStartRegistrering(token)
     }
