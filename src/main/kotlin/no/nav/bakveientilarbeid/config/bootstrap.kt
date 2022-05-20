@@ -5,6 +5,7 @@ import io.ktor.auth.*
 import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.util.pipeline.*
@@ -16,12 +17,37 @@ import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory
 import no.nav.security.token.support.ktor.tokenValidationSupport
+import java.util.*
 
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
     val environment = Environment()
     val config = this.environment.config
 
     install(DefaultHeaders)
+
+    install(CallId) {
+        retrieve { call ->
+            listOf(
+                HttpHeaders.XCorrelationId,
+                "Nav-Call-Id",
+                "Nav-CallId"
+            ).firstNotNullOfOrNull { call.request.header(it) }
+        }
+
+        generate {
+            UUID.randomUUID().toString()
+        }
+
+        verify { callId: String ->
+            callId.isNotEmpty()
+        }
+    }
+
+    install(CallLogging) {
+        callIdMdc("callId")
+
+        mdc("requestId") { call -> call.request.header(HttpHeaders.XRequestId) ?: UUID.randomUUID().toString() }
+    }
 
     install(CORS) {
         host(environment.corsAllowedOrigins, schemes = listOf(environment.corsAllowedSchemes))
