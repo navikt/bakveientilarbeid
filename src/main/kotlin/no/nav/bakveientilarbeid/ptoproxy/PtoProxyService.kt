@@ -1,5 +1,6 @@
 package no.nav.bakveientilarbeid.ptoproxy
 
+import io.ktor.request.*
 import no.nav.bakveientilarbeid.auth.AccessToken
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 
@@ -18,8 +19,8 @@ class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer) {
         return ptoProxyConsumer.hentUnderOppfolging(token)
     }
 
-    suspend fun hentStartRegistrering(user: AuthenticatedUser, token: String): String {
-        return ptoProxyConsumer.hentStartRegistrering(AccessToken(token))
+    suspend fun hentStartRegistrering(user: AuthenticatedUser, cookies: RequestCookies): String {
+        return ptoProxyConsumer.hentStartRegistrering(AccessToken(user.token), cookies)
     }
 
     suspend fun hentRegistrering(user: AuthenticatedUser): String {

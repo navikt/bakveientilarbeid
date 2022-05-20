@@ -17,8 +17,8 @@ fun Route.ptoProxyRoute(ptoProxyService: PtoProxyService) {
     }
 
     get("/startregistrering") {
-        val token = this.context.request.cookies["selvbetjening-idtoken"]
-        call.respond(HttpStatusCode.OK, ptoProxyService.hentStartRegistrering(authenticatedUser, token!!).toString())
+        val cookies = this.context.request.cookies
+        call.respond(HttpStatusCode.OK, ptoProxyService.hentStartRegistrering(authenticatedUser, cookies).toString())
     }
 
     get("/registrering") {

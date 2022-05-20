@@ -3,10 +3,10 @@ package no.nav.bakveientilarbeid.http
 import io.ktor.client.HttpClient
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.request.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import no.nav.bakveientilarbeid.auth.AccessToken
-import no.nav.tms.token.support.tokendings.exchange.TokenXHeader
 import java.net.URL
 
 const val consumerIdHeaderName = "Nav-Consumer-Id"
@@ -36,11 +36,12 @@ suspend inline fun <reified T> HttpClient.getWithConsumerId(url: URL, accessToke
     }
 }
 
-suspend inline fun <reified T> HttpClient.getWithConsumerIdAndCookie(url: URL, accessToken: AccessToken): T = withContext(Dispatchers.IO) {
+suspend inline fun <reified T> HttpClient.getWithConsumerIdAndCookies(url: URL, accessToken: AccessToken, cookies: RequestCookies): T = withContext(Dispatchers.IO) {
     request {
         url(url)
         method = HttpMethod.Get
-        cookie("Authorization", "Bearer ${accessToken.value}")
+        header("Cookie", cookies)
+        header("Authorization", "Bearer ${accessToken.value}")
         header(consumerIdHeaderName, consumerIdHeaderValue)
     }
 }
