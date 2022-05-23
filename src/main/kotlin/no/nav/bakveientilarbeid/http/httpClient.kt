@@ -40,7 +40,7 @@ suspend inline fun <reified T> HttpClient.getWithConsumerIdAndCookies(url: URL, 
     request {
         url(url)
         method = HttpMethod.Get
-        header("Cookie", cookies)
+        cookie("selvbetjening-idtoken", cookies.get("selvbetjening-idtoken")!!)
         header("Authorization", "Bearer ${accessToken.value}")
         header(consumerIdHeaderName, consumerIdHeaderValue)
     }

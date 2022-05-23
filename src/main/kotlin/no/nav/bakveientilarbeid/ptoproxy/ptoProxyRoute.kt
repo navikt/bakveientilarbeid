@@ -5,6 +5,7 @@ import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.bakveientilarbeid.config.authenticatedUser
+import no.nav.personbruker.dittnav.common.logging.util.logger
 
 fun Route.ptoProxyRoute(ptoProxyService: PtoProxyService) {
 
@@ -18,6 +19,7 @@ fun Route.ptoProxyRoute(ptoProxyService: PtoProxyService) {
 
     get("/startregistrering") {
         val cookies = this.context.request.cookies
+        logger.debug("startregistrering cookie", cookies.get("selvbetjening-idtoken"))
         call.respond(HttpStatusCode.OK, ptoProxyService.hentStartRegistrering(authenticatedUser, cookies).toString())
     }
 
