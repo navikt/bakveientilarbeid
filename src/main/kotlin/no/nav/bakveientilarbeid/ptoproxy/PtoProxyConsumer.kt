@@ -18,7 +18,7 @@ class PtoProxyConsumer(
     private val REGISTRERING_URL = URL("$PTO_PROXY_URL/veilarbregistrering/api/registrering")
     private val DIALOG_URL = URL("$PTO_PROXY_URL/veilarbdialog/api/dialog/antallUleste")
     private val BESVARELSE_URL = URL("$PTO_PROXY_URL/veilarbvedtakinfo/api/behovsvurdering/besvarelse")
-    private val MOTESTOTTE_URL = URL("$PTO_PROXY_URL/veilaveilarbvedtakinfo/api/motestotte")
+    private val MOTESTOTTE_URL = URL("$PTO_PROXY_URL/veilarbvedtakinfo/api/motestotte")
 
     suspend fun hentOppfolging(userToken: AccessToken): String {
         return httpClient.getWithConsumerId(OPPFOLGING_URL, userToken)
