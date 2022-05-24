@@ -20,7 +20,7 @@ fun Route.ptoProxyRoute(ptoProxyService: PtoProxyService) {
 
     get("/startregistrering") {
         if (isDevelopment()) {
-            logger.info("startregistrering - token", authenticatedUser.token.toString())
+            logger.info("startregistrering - token ${authenticatedUser.token}")
         }
         call.respond(HttpStatusCode.OK, ptoProxyService.hentStartRegistrering(authenticatedUser).toString())
     }
