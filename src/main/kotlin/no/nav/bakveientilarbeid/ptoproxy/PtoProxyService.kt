@@ -19,8 +19,10 @@ class PtoProxyService(private val ptoProxyConsumer: PtoProxyConsumer) {
         return ptoProxyConsumer.hentUnderOppfolging(token)
     }
 
-    suspend fun hentStartRegistrering(user: AuthenticatedUser, cookies: RequestCookies): String {
-        return ptoProxyConsumer.hentStartRegistrering(AccessToken(user.token), cookies)
+    suspend fun hentStartRegistrering(user: AuthenticatedUser): String {
+        val token = AccessToken(user.token)
+
+        return ptoProxyConsumer.hentStartRegistrering(token)
     }
 
     suspend fun hentRegistrering(user: AuthenticatedUser): String {
