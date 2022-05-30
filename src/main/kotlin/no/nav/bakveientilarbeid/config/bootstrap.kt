@@ -20,6 +20,7 @@ import no.nav.security.token.support.ktor.tokenValidationSupport
 import java.util.*
 
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
+    logger.info("TOKEN_X_WELL_KNOWN_URL: ${requireProperty("TOKEN_X_WELL_KNOWN_URL")}")
     val environment = Environment()
     val config = this.environment.config
 
@@ -69,7 +70,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         authenticate {
             dagpengerRoute(appContext.dagpengerService)
             meldekortRoute(appContext.meldekortService)
-            ptoProxyRoute(appContext.ptoProxyService)
+            ptoProxyRoute(appContext.ptoProxyService, appContext.httpClient, environment.ptoProxyUrl)
         }
     }
 
