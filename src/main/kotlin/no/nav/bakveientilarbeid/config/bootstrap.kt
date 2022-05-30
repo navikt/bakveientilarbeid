@@ -8,6 +8,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
+import io.ktor.server.netty.*
 import io.ktor.util.pipeline.*
 import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
@@ -19,7 +20,11 @@ import no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory
 import no.nav.security.token.support.ktor.tokenValidationSupport
 import java.util.*
 
-fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
+fun main(args: Array<String>): Unit = EngineMain.main(args)
+
+@Suppress("unused")
+fun Application.module() {
+    val appContext = ApplicationContext()
     val environment = Environment()
     val config = this.environment.config
 
