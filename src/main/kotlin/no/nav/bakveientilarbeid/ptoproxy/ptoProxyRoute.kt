@@ -6,9 +6,13 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.bakveientilarbeid.config.authenticatedUser
 import no.nav.bakveientilarbeid.config.isDevelopment
-import no.nav.personbruker.dittnav.common.logging.util.logger
+import no.nav.bakveientilarbeid.config.logger
 
-fun Route.ptoProxyRoute(ptoProxyService: PtoProxyService) {
+fun Route.ptoProxyRoute(
+    ptoProxyService: PtoProxyService,
+//    httpClient: HttpClient,
+//    PTO_PROXY_URL: String
+) {
 
     get("/oppfolging") {
         call.respond(HttpStatusCode.OK, ptoProxyService.hentOppfolgig(authenticatedUser).toString())
@@ -24,6 +28,12 @@ fun Route.ptoProxyRoute(ptoProxyService: PtoProxyService) {
         }
         call.respond(HttpStatusCode.OK, ptoProxyService.hentStartRegistrering(authenticatedUser).toString())
     }
+
+//    get("/registrering") {
+//        val token = AccessToken(authenticatedUser.token)
+//        val REGISTRERING_URL = URL("$PTO_PROXY_URL/veilarbregistrering/api/registrering")
+//        call.respond(httpClient.getWithConsumerId(REGISTRERING_URL, token))
+//    }
 
     get("/registrering") {
         call.respond(HttpStatusCode.OK, ptoProxyService.hentRegistrering(authenticatedUser).toString())

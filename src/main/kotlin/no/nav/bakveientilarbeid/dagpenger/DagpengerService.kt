@@ -1,6 +1,6 @@
 package no.nav.bakveientilarbeid.dagpenger
 
-import no.nav.personbruker.dittnav.common.logging.util.logger
+import no.nav.bakveientilarbeid.config.logger
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 
 class DagpengerService(

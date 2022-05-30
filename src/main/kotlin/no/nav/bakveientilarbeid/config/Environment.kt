@@ -5,7 +5,6 @@ data class Environment(
     val corsAllowedOrigins: String = requireProperty("CORS_ALLOWED_ORIGINS"),
     val corsAllowedSchemes: String = requireProperty("CORS_ALLOWED_SCHEMES"),
     val ptoProxyUrl: String = requireProperty("PTO_PROXY_URL")
-
 )
 
 fun requireProperty(property: String) =
