@@ -198,7 +198,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>13</jvmTarget>
+                    <jvmTarget>17</jvmTarget>
                     <compilerPlugins>
                         <plugin>kotlinx-serialization</plugin>
                     </compilerPlugins>
