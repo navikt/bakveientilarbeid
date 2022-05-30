@@ -10,7 +10,7 @@
     <description>Enkel backend for veientilarbeid</description>
 
     <properties>
-        <main.class>no.nav.bakveientilarbeid.app.ApplicationKt</main.class>
+        <main.class>no.nav.bakveientilarbeid.config.BootstrapKt</main.class>
         <ktor.version>1.6.7</ktor.version>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.version>1.6.10</kotlin.version>
