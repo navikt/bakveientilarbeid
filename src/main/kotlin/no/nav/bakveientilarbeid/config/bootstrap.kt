@@ -9,14 +9,11 @@ import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.server.netty.*
-import io.ktor.util.pipeline.*
 import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
 import no.nav.bakveientilarbeid.http.jsonConfig
 import no.nav.bakveientilarbeid.meldekort.meldekortRoute
 import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
-import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
-import no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory
 import no.nav.security.token.support.ktor.tokenValidationSupport
 import java.util.*
 
@@ -75,7 +72,6 @@ fun Application.module() {
             dagpengerRoute(appContext.dagpengerService, appContext.authenticatedUserService)
             meldekortRoute(appContext.meldekortService, appContext.authenticatedUserService)
             ptoProxyRoute(
-                appContext.ptoProxyService,
                 appContext.authenticatedUserService,
                 appContext.httpClient,
                 environment.ptoProxyUrl

@@ -66,7 +66,6 @@ fun Application.localModule() {
         dagpengerRoute(appContext.dagpengerService, appContext.authenticatedUserService)
         meldekortRoute(appContext.meldekortService, appContext.authenticatedUserService)
         ptoProxyRoute(
-            appContext.ptoProxyService,
             appContext.authenticatedUserService,
             appContext.httpClient,
             environment.ptoProxyUrl

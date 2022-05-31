@@ -10,12 +10,9 @@ import no.nav.bakveientilarbeid.http.HttpClientBuilder
 import no.nav.bakveientilarbeid.meldekort.MeldekortConsumer
 import no.nav.bakveientilarbeid.meldekort.MeldekortService
 import no.nav.bakveientilarbeid.meldekort.MeldekortTokendings
-import no.nav.bakveientilarbeid.ptoproxy.PtoProxyConsumer
-import no.nav.bakveientilarbeid.ptoproxy.PtoProxyService
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 
 class ApplicationContextLocal {
-    val environment = Environment()
     val httpClient = HttpClientBuilder.build()
     val authenticatedUserService = mockk<AuthenticatedUserService>(relaxed = true)
 
@@ -25,10 +22,8 @@ class ApplicationContextLocal {
 
     val dagpengerConsumer = DagpengerConsumer(httpClient)
     val meldekortConsumer = MeldekortConsumer(httpClient)
-    val ptoProxyConsumer = PtoProxyConsumer(httpClient, environment.ptoProxyUrl)
 
     val healthService = mockk<HealthService>()
     val dagpengerService = DagpengerService(dagpengerConsumer, dagpengerTokendings)
     val meldekortService = MeldekortService(meldekortConsumer, meldekortTokendings)
-    val ptoProxyService = PtoProxyService(ptoProxyConsumer);
 }
