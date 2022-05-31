@@ -3,7 +3,7 @@ package no.nav.bakveientilarbeid.testsupport
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
-import no.nav.bakveientilarbeid.ptoproxy.stubPtoProxyRegistreringGet
+import no.nav.bakveientilarbeid.ptoproxy.stubPtoProxy
 
 
 internal class WiremockEnvironment(
@@ -13,7 +13,7 @@ internal class WiremockEnvironment(
     internal val wireMockServer = WireMockBuilder()
         .withPort(wireMockPort)
         .build()
-        .stubPtoProxyRegistreringGet()
+        .stubPtoProxy()
 
     internal fun start() = this
 

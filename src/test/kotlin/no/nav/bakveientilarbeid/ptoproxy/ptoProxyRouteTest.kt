@@ -34,4 +34,14 @@ internal class PtoProxyRouteTest(
             }
         }
     }
+
+    @Test
+    fun `GET startregistrering returnerer 200 og body når den får det fra veilarbregistrering`() {
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/startregistrering") {}.apply {
+                assertEquals(HttpStatusCode.OK, this.response.status())
+                assertEquals("{\"startregistrering\":\"test\"}", this.response.content)
+            }
+        }
+    }
 }

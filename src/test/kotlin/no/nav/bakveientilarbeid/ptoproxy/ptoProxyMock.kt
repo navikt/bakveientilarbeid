@@ -16,4 +16,19 @@ internal fun WireMockServer.stubPtoProxyRegistreringGet(): WireMockServer {
     return this
 }
 
+internal fun WireMockServer.stubPtoProxyStartRegistreringGet(): WireMockServer {
+    stubFor(
+        WireMock.get(WireMock.urlPathMatching(".*$ptoProxyTestPath/veilarbregistrering/api/startregistrering.*"))
+            .willReturn(
+                WireMock.aResponse()
+                    .withStatus(200)
+                    .withBody("{\"startregistrering\":\"test\"}")
+            )
+    )
+    return this
+}
+
 internal fun WireMockServer.ptoProxyUrl(): String = baseUrl() + ptoProxyTestPath
+internal fun WireMockServer.stubPtoProxy(): WireMockServer = this
+    .stubPtoProxyStartRegistreringGet()
+    .stubPtoProxyRegistreringGet()
