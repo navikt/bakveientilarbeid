@@ -35,8 +35,7 @@ fun Route.ptoProxyRoute(
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
         val token = AccessToken(authenticatedUser.token)
         val startRegistreringUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/startregistrering")
-        val response = httpClient.getWithConsumerId<HttpResponse>(startRegistreringUrl, token)
-        call.respondBytes(bytes = response.readBytes(), status = response.status)
+        handleRequest(call, httpClient, token, startRegistreringUrl)
     }
 
     get("/registrering") {
