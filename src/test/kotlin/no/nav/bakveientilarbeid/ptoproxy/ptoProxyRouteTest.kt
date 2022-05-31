@@ -44,4 +44,25 @@ internal class PtoProxyRouteTest(
             }
         }
     }
+
+    @Test
+    fun `GET oppfolging returnerer 401 når den får det fra ptoproxy`() {
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/oppfolging") {}.apply {
+                assertEquals(HttpStatusCode.Unauthorized, this.response.status())
+            }
+        }
+    }
+
+    @Test
+    fun `GET underoppfolging returnerer 500 når den får det fra ptoproxy`() {
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/underoppfolging") {}.apply {
+                assertEquals(HttpStatusCode.InternalServerError, this.response.status())
+                assertEquals("uventet feil", this.response.content)
+            }
+        }
+    }
+
+
 }

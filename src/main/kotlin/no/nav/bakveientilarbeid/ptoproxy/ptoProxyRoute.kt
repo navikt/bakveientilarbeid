@@ -2,15 +2,12 @@ package no.nav.bakveientilarbeid.ptoproxy
 
 import io.ktor.application.*
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.statement.*
-import io.ktor.client.statement.HttpResponse
-import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import no.nav.bakveientilarbeid.auth.AccessToken
 import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
-import no.nav.bakveientilarbeid.config.isDevelopment
-import no.nav.bakveientilarbeid.config.logger
 import no.nav.bakveientilarbeid.http.getWithConsumerId
 import java.net.URL
 
@@ -24,16 +21,14 @@ fun Route.ptoProxyRoute(
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
         val token = AccessToken(authenticatedUser.token)
         val oppfolgingUrl = URL("$PTO_PROXY_URL/veilarboppfolging/api/oppfolging")
-        val response = httpClient.getWithConsumerId<HttpResponse>(oppfolgingUrl, token)
-        call.respondBytes(bytes = response.readBytes(), status = response.status)
+        handleRequest(call, httpClient, token, oppfolgingUrl)
     }
 
     get("/underoppfolging") {
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
         val token = AccessToken(authenticatedUser.token)
         val underOppfolgingUrl = URL("$PTO_PROXY_URL/veilarboppfolging/api/niva3/underoppfolging")
-        val response = httpClient.getWithConsumerId<HttpResponse>(underOppfolgingUrl, token)
-        call.respondBytes(bytes = response.readBytes(), status = response.status)
+        handleRequest(call, httpClient, token, underOppfolgingUrl)
     }
 
     get("/startregistrering") {
@@ -48,32 +43,41 @@ fun Route.ptoProxyRoute(
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
         val token = AccessToken(authenticatedUser.token)
         val registreringUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/registrering")
-        val response = httpClient.getWithConsumerId<HttpResponse>(registreringUrl, token)
-        call.respondBytes(bytes = response.readBytes(), status = response.status)
+        handleRequest(call, httpClient, token, registreringUrl)
     }
 
     get("/dialog/antallUleste") {
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
         val token = AccessToken(authenticatedUser.token)
         val dialogUrl = URL("$PTO_PROXY_URL/veilarbdialog/api/dialog/antallUleste")
-        val response = httpClient.getWithConsumerId<HttpResponse>(dialogUrl, token)
-        call.respondBytes(bytes = response.readBytes(), status = response.status)
+        handleRequest(call, httpClient, token, dialogUrl)
     }
 
     get("/vedtakinfo/besvarelse") {
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
         val token = AccessToken(authenticatedUser.token)
         val besvarelseUrl = URL("$PTO_PROXY_URL/veilarbvedtakinfo/api/behovsvurdering/besvarelse")
-        val response = httpClient.getWithConsumerId<HttpResponse>(besvarelseUrl, token)
-        call.respondBytes(bytes = response.readBytes(), status = response.status)
+        handleRequest(call, httpClient, token, besvarelseUrl)
     }
 
     get("/vedtakinfo/motestotte") {
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
         val token = AccessToken(authenticatedUser.token)
         val motestotteUrl = URL("$PTO_PROXY_URL/veilarbvedtakinfo/api/motestotte")
-        val response = httpClient.getWithConsumerId<HttpResponse>(motestotteUrl, token)
-        call.respondBytes(bytes = response.readBytes(), status = response.status)
+        handleRequest(call, httpClient, token, motestotteUrl)
     }
 }
 
+suspend fun handleRequest(call: ApplicationCall, httpClient: HttpClient, token: AccessToken, url: URL) {
+    Result.runCatching {
+        httpClient.getWithConsumerId<HttpResponse>(url, token)
+    }.fold(
+        onSuccess = {
+            call.respondBytes(bytes = it.readBytes(), status = it.status)
+        },
+        onFailure = {
+            val exception = it as ResponseException
+            call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+        }
+    )
+}

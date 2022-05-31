@@ -28,7 +28,32 @@ internal fun WireMockServer.stubPtoProxyStartRegistreringGet(): WireMockServer {
     return this
 }
 
+internal fun WireMockServer.stubPtoProxyOppfolgingGet(): WireMockServer {
+    stubFor(
+        WireMock.get(WireMock.urlPathMatching(".*$ptoProxyTestPath/veilarboppfolging/api/oppfolging.*"))
+            .willReturn(
+                WireMock.aResponse()
+                    .withStatus(401)
+            )
+    )
+    return this
+}
+
+internal fun WireMockServer.stubPtoProxyUnderOppfolgingGet(): WireMockServer {
+    stubFor(
+        WireMock.get(WireMock.urlPathMatching(".*$ptoProxyTestPath/veilarboppfolging/api/niva3/underoppfolging.*"))
+            .willReturn(
+                WireMock.aResponse()
+                    .withStatus(500)
+                    .withBody("uventet feil")
+            )
+    )
+    return this
+}
+
 internal fun WireMockServer.ptoProxyUrl(): String = baseUrl() + ptoProxyTestPath
 internal fun WireMockServer.stubPtoProxy(): WireMockServer = this
     .stubPtoProxyStartRegistreringGet()
     .stubPtoProxyRegistreringGet()
+    .stubPtoProxyOppfolgingGet()
+    .stubPtoProxyUnderOppfolgingGet()
