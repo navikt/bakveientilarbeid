@@ -1,7 +1,6 @@
 package no.nav.bakveientilarbeid.config
 
 import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -17,16 +16,14 @@ import no.nav.bakveientilarbeid.meldekort.meldekortRoute
 import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 import no.nav.personbruker.dittnav.common.security.AuthenticatedUserFactory
-import no.nav.security.token.support.ktor.tokenValidationSupport
 import java.util.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 @Suppress("unused")
-fun Application.module() {
-    val appContext = ApplicationContext()
+fun Application.localModule() {
+    val appContext = ApplicationContextLocal()
     val environment = Environment()
-    val config = this.environment.config
 
     install(DefaultHeaders)
 
@@ -64,23 +61,16 @@ fun Application.module() {
         json(jsonConfig())
     }
 
-    install(Authentication) {
-        tokenValidationSupport(config = config)
-    }
-
     routing {
         healthRoute(appContext.healthService)
-
-        authenticate {
-            dagpengerRoute(appContext.dagpengerService, appContext.authenticatedUserService)
-            meldekortRoute(appContext.meldekortService, appContext.authenticatedUserService)
-            ptoProxyRoute(
-                appContext.ptoProxyService,
-                appContext.authenticatedUserService,
-                appContext.httpClient,
-                environment.ptoProxyUrl
-            )
-        }
+        dagpengerRoute(appContext.dagpengerService, appContext.authenticatedUserService)
+        meldekortRoute(appContext.meldekortService, appContext.authenticatedUserService)
+        ptoProxyRoute(
+            appContext.ptoProxyService,
+            appContext.authenticatedUserService,
+            appContext.httpClient,
+            environment.ptoProxyUrl
+        )
     }
 
     configureShutdownHook(appContext.httpClient)

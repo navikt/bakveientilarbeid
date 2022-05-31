@@ -7,7 +7,7 @@ private val ptoProxyTestPath = "/mock-ptoproxy"
 
 internal fun WireMockServer.stubPtoProxyRegistreringGet(): WireMockServer {
     stubFor(
-        WireMock.get(WireMock.urlPathMatching(".*$ptoProxyTestPath/registrering.*"))
+        WireMock.get(WireMock.urlPathMatching(".*$ptoProxyTestPath/veilarbregistrering/api/registrering.*"))
             .willReturn(
                 WireMock.aResponse()
                     .withStatus(204)

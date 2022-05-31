@@ -6,7 +6,7 @@ import com.typesafe.config.ConfigFactory
 import io.ktor.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.testing.*
-import no.nav.bakveientilarbeid.config.mainModule
+import no.nav.bakveientilarbeid.config.localModule
 import no.nav.bakveientilarbeid.ptoproxy.ptoProxyUrl
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.ParameterContext
@@ -31,7 +31,7 @@ internal class TestApplicationExtension: ParameterResolver {
     private val testApplicationEngine = TestApplicationEngine(
         environment = createTestEnvironment {
             config = HoconApplicationConfig(ConfigFactory.load().withoutPath("ktor.application.modules"))
-            module { mainModule() }
+            module { localModule() }
         }
     )
 
