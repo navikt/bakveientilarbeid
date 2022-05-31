@@ -1,5 +1,6 @@
 package no.nav.bakveientilarbeid.config
 
+import io.mockk.mockk
 import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
 import no.nav.bakveientilarbeid.dagpenger.DagpengerConsumer
 import no.nav.bakveientilarbeid.dagpenger.DagpengerService
@@ -9,20 +10,20 @@ import no.nav.bakveientilarbeid.http.HttpClientBuilder
 import no.nav.bakveientilarbeid.meldekort.MeldekortConsumer
 import no.nav.bakveientilarbeid.meldekort.MeldekortService
 import no.nav.bakveientilarbeid.meldekort.MeldekortTokendings
-import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder
+import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 
-class ApplicationContext {
+class ApplicationContextLocal {
     val httpClient = HttpClientBuilder.build()
+    val authenticatedUserService = mockk<AuthenticatedUserService>(relaxed = true)
 
-    val authenticatedUserService = AuthenticatedUserService()
-    val tokendingsService = TokendingsServiceBuilder.buildTokendingsService(maxCachedEntries = 5000)
+    val tokendingsService = mockk<TokendingsService>()
     val dagpengerTokendings = DagpengerTokendings(tokendingsService)
     val meldekortTokendings = MeldekortTokendings(tokendingsService)
 
     val dagpengerConsumer = DagpengerConsumer(httpClient)
     val meldekortConsumer = MeldekortConsumer(httpClient)
 
-    val healthService = HealthService(this)
+    val healthService = mockk<HealthService>()
     val dagpengerService = DagpengerService(dagpengerConsumer, dagpengerTokendings)
     val meldekortService = MeldekortService(meldekortConsumer, meldekortTokendings)
 }

@@ -1,29 +1,47 @@
 package no.nav.bakveientilarbeid.ptoproxy
 
-import io.ktor.application.*
-import io.ktor.auth.*
+import com.github.tomakehurst.wiremock.WireMockServer
 import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.server.*
 import io.ktor.server.testing.*
+import no.nav.bakveientilarbeid.testsupport.TestApplicationExtension
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(TestApplicationExtension::class)
+internal class PtoProxyRouteTest(
+    private val testApplicationEngine: TestApplicationEngine,
+    private val wireMockServer: WireMockServer
+) {
 
-internal class ptoProxyRouteTest {
-
-    @Test
-    fun `GET registrering returnerer 204 når den får det fra veilarbregistrering`() = withTestApplication() {
-        val status = handleRequest(HttpMethod.Get, "/registrering")
-            .response.status()
+    @BeforeEach
+    fun setup() {
+        wireMockServer.start()
     }
 
-//    private fun Application.testApi() = withEnvironment(envVars) {
-//
-//        routing {
-//            get("/test") {
-//                call.respond(HttpStatusCode.OK)
-//            }
-//        }
-//    }
+    @AfterEach
+    fun tearDown() {
+        wireMockServer.stop()
+    }
+
+    @Test
+    fun `GET registrering returnerer 204 når den får det fra veilarbregistrering`() {
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/registrering") {}.apply {
+                assertEquals(HttpStatusCode.NoContent, this.response.status())
+            }
+        }
+    }
+
+    @Test
+    fun `GET startregistrering returnerer 200 og body når den får det fra veilarbregistrering`() {
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/startregistrering") {}.apply {
+                assertEquals(HttpStatusCode.OK, this.response.status())
+                assertEquals("{\"startregistrering\":\"test\"}", this.response.content)
+            }
+        }
+    }
 }
