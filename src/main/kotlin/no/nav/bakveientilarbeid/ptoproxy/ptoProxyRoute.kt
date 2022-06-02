@@ -6,9 +6,11 @@ import io.ktor.client.features.*
 import io.ktor.client.statement.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.html.InputType
 import no.nav.bakveientilarbeid.auth.AccessToken
 import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
 import no.nav.bakveientilarbeid.http.getWithConsumerId
+import no.nav.bakveientilarbeid.http.postWithConsumerId
 import java.net.URL
 
 fun Route.ptoProxyRoute(
@@ -57,6 +59,25 @@ fun Route.ptoProxyRoute(
         val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
         val motestotteUrl = URL("$PTO_PROXY_URL/veilarbvedtakinfo/api/motestotte")
         handleRequest(call, httpClient, token, motestotteUrl)
+    }
+
+    get("/arbeidssoker/perioder") {
+        val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
+        val perioderUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder")
+
+        System.out.println("\n\n PARAMETERE ${call.request.queryParameters} \n\n")
+
+        Result.runCatching {
+            httpClient.postWithConsumerId<HttpResponse>(perioderUrl, call.request.queryParameters, token)
+        }.fold(
+            onSuccess = {
+                call.respondBytes(bytes = it.readBytes(), status = it.status)
+            },
+            onFailure = {
+                val exception = it as ResponseException
+                call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+            }
+        )
     }
 }
 

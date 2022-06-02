@@ -51,9 +51,23 @@ internal fun WireMockServer.stubPtoProxyUnderOppfolgingGet(): WireMockServer {
     return this
 }
 
+internal fun WireMockServer.stubPtoProxyPerioderPost(): WireMockServer {
+    stubFor(
+        WireMock.post(WireMock.urlPathMatching(".*$ptoProxyTestPath/veilarbregistrering/api/arbeidssoker/perioder.*"))
+            .willReturn(
+                WireMock.aResponse()
+                    .withStatus(200)
+                    .withBody("{\"perioder\":\"[]\"}")
+            )
+    )
+    return this
+}
+
+
 internal fun WireMockServer.ptoProxyUrl(): String = baseUrl() + ptoProxyTestPath
 internal fun WireMockServer.stubPtoProxy(): WireMockServer = this
     .stubPtoProxyStartRegistreringGet()
     .stubPtoProxyRegistreringGet()
     .stubPtoProxyOppfolgingGet()
     .stubPtoProxyUnderOppfolgingGet()
+    .stubPtoProxyPerioderPost()

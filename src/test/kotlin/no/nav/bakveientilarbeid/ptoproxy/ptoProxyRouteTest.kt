@@ -64,5 +64,15 @@ internal class PtoProxyRouteTest(
         }
     }
 
+    @Test
+    fun `GET arbeidssoker-perioder sender med query parametere`() {
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/arbeidssoker/perioder?fraOgMed=2022-01-01") {}.apply {
+                assertEquals(HttpStatusCode.OK, this.response.status())
+                assertEquals("{\"perioder\":\"[]\"}", this.response.content)
+            }
+        }
+    }
+
 
 }
