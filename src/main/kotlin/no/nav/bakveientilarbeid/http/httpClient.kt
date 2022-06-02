@@ -37,11 +37,11 @@ suspend inline fun <reified T> HttpClient.getWithConsumerId(url: URL, accessToke
     }
 }
 
-suspend inline fun <reified T> HttpClient.postWithConsumerId(url: URL, queryParams: Parameters?, accessToken: AccessToken): T = withContext(Dispatchers.IO) {
+suspend inline fun <reified T> HttpClient.postWithConsumerId(url: URL, queryParams: Parameters, accessToken: AccessToken): T = withContext(Dispatchers.IO) {
     request {
         url(url)
         url {
-
+            queryParams.forEach { param, _ -> parameters.append(param, queryParams[param]!!) }
         }
         method = HttpMethod.Post
         header(HttpHeaders.Authorization, "Bearer ${accessToken.value}")

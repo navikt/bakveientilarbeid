@@ -64,9 +64,6 @@ fun Route.ptoProxyRoute(
     get("/arbeidssoker/perioder") {
         val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
         val perioderUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder")
-
-        System.out.println("\n\n PARAMETERE ${call.request.queryParameters} \n\n")
-
         Result.runCatching {
             httpClient.postWithConsumerId<HttpResponse>(perioderUrl, call.request.queryParameters, token)
         }.fold(
