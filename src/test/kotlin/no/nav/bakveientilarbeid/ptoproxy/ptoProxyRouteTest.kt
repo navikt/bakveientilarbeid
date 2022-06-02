@@ -1,6 +1,10 @@
 package no.nav.bakveientilarbeid.ptoproxy
 
 import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.client.WireMock.equalTo
+import com.github.tomakehurst.wiremock.matching.EqualToPattern
+import com.github.tomakehurst.wiremock.matching.StringValuePattern
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import no.nav.bakveientilarbeid.testsupport.TestApplicationExtension
@@ -60,6 +64,26 @@ internal class PtoProxyRouteTest(
             handleRequest(HttpMethod.Get, "/underoppfolging") {}.apply {
                 assertEquals(HttpStatusCode.InternalServerError, this.response.status())
                 assertEquals("uventet feil", this.response.content)
+            }
+        }
+    }
+
+    @Test
+    fun `GET arbeidssoker-perioder sender med query parametere`() {
+        wireMockServer.stubFor(
+            WireMock.post(WireMock.urlPathMatching(".*/mock-ptoproxy/veilarbregistrering/api/arbeidssoker/perioder.*"))
+                .withQueryParam("fraOgMed", equalTo("2022-01-01"))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withStatus(200)
+                        .withBody("{\"perioder\":\"[]\"}")
+                )
+        )
+
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/arbeidssoker/perioder?fraOgMed=2022-01-01") {}.apply {
+                assertEquals(HttpStatusCode.OK, this.response.status())
+                assertEquals("{\"perioder\":\"[]\"}", this.response.content)
             }
         }
     }
