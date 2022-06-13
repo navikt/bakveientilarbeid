@@ -33,6 +33,8 @@ spec:
       value: "meldekort-api-q1"
     - name: PTO_PROXY_URL
       value: https://pto-proxy.dev.intern.nav.no/proxy
+    - name: UNLEASH_API_URL
+      value: https://unleash.nais.io/api/
   resources:
     limits:
       cpu: "3"

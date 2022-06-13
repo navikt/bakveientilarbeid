@@ -14,6 +14,7 @@ import no.nav.bakveientilarbeid.health.healthRoute
 import no.nav.bakveientilarbeid.http.jsonConfig
 import no.nav.bakveientilarbeid.meldekort.meldekortRoute
 import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
+import no.nav.bakveientilarbeid.unleash.unleashRoute
 import no.nav.security.token.support.ktor.tokenValidationSupport
 import java.util.*
 
@@ -76,6 +77,7 @@ fun Application.module() {
                 appContext.httpClient,
                 environment.ptoProxyUrl
             )
+            unleashRoute(appContext.authenticatedUserService, appContext.unleashService)
         }
     }
 
