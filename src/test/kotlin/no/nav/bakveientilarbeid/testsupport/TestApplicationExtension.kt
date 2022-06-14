@@ -26,6 +26,7 @@ internal class TestApplicationExtension: ParameterResolver {
         System.setProperty("TOKEN_X_PRIVATE_JWK", "test123")
         System.setProperty("MELDEKORT_APP_NAME", "meldekort")
         System.setProperty("PTO_PROXY_URL", wiremockEnvironment.wireMockServer.ptoProxyUrl())
+        System.setProperty("UNLEASH_API_URL", "unleash-api")
     }
 
     private val testApplicationEngine = TestApplicationEngine(
