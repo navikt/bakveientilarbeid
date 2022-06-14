@@ -9,10 +9,10 @@ import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 class UnleashService(private val unleashClient: Unleash) {
 
     suspend fun getFeatureStatus(user: AuthenticatedUser, features: List<String>): Map<String, Boolean> = withContext(Dispatchers.IO) {
-        transformToMap(user, features)
+        transformToMapWithStatus(user, features)
     }
 
-    private fun transformToMap(user: AuthenticatedUser, features: List<String>): Map<String, Boolean> {
+    private fun transformToMapWithStatus(user: AuthenticatedUser, features: List<String>): Map<String, Boolean> {
         return features.associateWith { unleashClient.isEnabled(it, createUnleashContext(user), false) }
     }
 
