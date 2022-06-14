@@ -17,9 +17,14 @@ fun Route.unleashRoute(
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
         val features = call.request.queryParameters.getAll("feature")
 
-        if (features?.isNotEmpty() == true) {
-            val result = unleashService.getFeatureStatus(authenticatedUser, features)
-            call.respond(HttpStatusCode.OK, result)
+        try {
+            if (features?.isNotEmpty() == true) {
+                val result = unleashService.getFeatureStatus(authenticatedUser, features)
+                call.respond(HttpStatusCode.OK, result)
+            }
+        } catch (exception: Exception) {
+            call.respond(HttpStatusCode.ServiceUnavailable)
+            log.warn("Klarte ikke å hente feature toggle. $exception", exception)
         }
 
         call.respond(HttpStatusCode.BadRequest)
