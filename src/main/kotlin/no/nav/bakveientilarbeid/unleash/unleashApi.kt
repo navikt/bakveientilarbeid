@@ -18,7 +18,7 @@ fun Route.unleashRoute(
         val features = call.request.queryParameters.getAll("feature")
 
         if (features?.isNotEmpty() == true) {
-            val result = unleashService.getFeatureStatuses(authenticatedUser, features)
+            val result = unleashService.getFeatureStatus(authenticatedUser, features)
             call.respond(HttpStatusCode.OK, result)
         }
 

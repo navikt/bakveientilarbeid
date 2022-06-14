@@ -8,7 +8,7 @@ import no.nav.personbruker.dittnav.common.security.AuthenticatedUser
 
 class UnleashService(private val unleashClient: Unleash) {
 
-    suspend fun getFeatureStatuses(user: AuthenticatedUser, features: List<String>): Map<String, Boolean> = withContext(Dispatchers.IO) {
+    suspend fun getFeatureStatus(user: AuthenticatedUser, features: List<String>): Map<String, Boolean> = withContext(Dispatchers.IO) {
         transformToMap(user, features)
     }
 
