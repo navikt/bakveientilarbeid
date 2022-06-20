@@ -40,9 +40,9 @@ spec:
   resources:
     limits:
       cpu: "3"
-      memory: 768Mi
+      memory: 1536Mi
     requests:
-      cpu: "500m"
+      cpu: "100m"
       memory: 580Mi
   accessPolicy:
     inbound:
