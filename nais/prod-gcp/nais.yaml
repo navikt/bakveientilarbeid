@@ -25,6 +25,7 @@ spec:
   webproxy: true
   ingresses:
     - "https://www.nav.no/bakveientilarbeid"
+    - "https://www.intern.nav.no/bakveientilarbeid"
     - "https://bakveientilarbeid.intern.nav.no/bakveientilarbeid"
   envFrom:
     - configmap: loginservice-idporten
