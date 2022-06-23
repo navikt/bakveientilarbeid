@@ -4,7 +4,8 @@ package no.nav.bakveientilarbeid.config
 data class Environment(
     val corsAllowedOrigins: String = requireProperty("CORS_ALLOWED_ORIGINS"),
     val corsAllowedSchemes: String = requireProperty("CORS_ALLOWED_SCHEMES"),
-    val ptoProxyUrl: String = requireProperty("PTO_PROXY_URL")
+    val ptoProxyUrl: String = requireProperty("PTO_PROXY_URL"),
+    val unleashApiUrl: String = requireProperty("UNLEASH_API_URL")
 )
 
 fun requireProperty(property: String) =
