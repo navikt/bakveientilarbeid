@@ -4,8 +4,12 @@ import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import no.nav.bakveientilarbeid.auth.AccessToken
 import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
 import no.nav.bakveientilarbeid.config.logger
@@ -13,6 +17,9 @@ import no.nav.bakveientilarbeid.http.getWithConsumerId
 import no.nav.bakveientilarbeid.http.postWithConsumerId
 import org.slf4j.Logger
 import java.net.URL
+
+@Serializable
+data class GjelderFraPostRequestDto(@Contextual val dato: String)
 
 fun Route.ptoProxyRoute(
     authenticatedUserService: AuthenticatedUserService,
@@ -75,6 +82,41 @@ fun Route.ptoProxyRoute(
                 val exception = it as ResponseException
                 logger.warn("Feil ved kall til pto-proxy=${perioderUrl} status=${exception.response.status}")
                 call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+            }
+        )
+    }
+
+    get("/gjelderfra") {
+        val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
+        val gjelderFraUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/registrering/gjelderfra")
+        handleRequest(call, httpClient, token, gjelderFraUrl, logger)
+    }
+
+    post("/gjelderfra") {
+        val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
+        val gjelderFraUrl =  URL("$PTO_PROXY_URL/veilarbregistrering/api/registrering/gjelderfra")
+
+        Result.runCatching {
+            val requestBody = call.receive<GjelderFraPostRequestDto>()
+            httpClient.postWithConsumerId<HttpResponse>(gjelderFraUrl, requestBody, token)
+        }.fold(
+            onSuccess = {
+                call.respondBytes(bytes = it.readBytes(), status = it.status)
+            },
+            onFailure = {
+                when (it) {
+                    is ResponseException -> {
+                        logger.warn("Feil ved kall til pto-proxy=${gjelderFraUrl} status=${it.response.status}")
+                        call.respondBytes(status = it.response.status, bytes = it.response.readBytes())
+                    }
+                    else -> {
+                        logger.warn("Feil", it)
+                        call.respond(
+                            status = HttpStatusCode.InternalServerError,
+                            message = it.message ?: "Ukjent feil mot POST /gjelderfra"
+                        )
+                    }
+                }
             }
         )
     }

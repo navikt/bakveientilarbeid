@@ -3,8 +3,8 @@ package no.nav.bakveientilarbeid.ptoproxy
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.equalTo
-import com.github.tomakehurst.wiremock.matching.EqualToPattern
-import com.github.tomakehurst.wiremock.matching.StringValuePattern
+import com.github.tomakehurst.wiremock.client.WireMock.equalToJson
+import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import no.nav.bakveientilarbeid.testsupport.TestApplicationExtension
@@ -88,5 +88,28 @@ internal class PtoProxyRouteTest(
         }
     }
 
+    @Test
+    fun `POST gjelder-fra sender med request body`() {
+        wireMockServer.stubFor(
+            WireMock.post(WireMock.urlPathMatching(".*/mock-ptoproxy/veilarbregistrering/api/registrering/gjelderfra.*"))
+                .withRequestBody(equalToJson("{\"dato\": \"2022-06-24\"}"))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withStatus(HttpStatusCode.Created.value)
+                )
+        )
+
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Post, "/gjelderfra") {
+                request {
+                    contentType(ContentType.Application.Json)
+                    addHeader(HttpHeaders.ContentType, "application/json")
+                    setBody("{\"dato\":\"2022-06-24\"}")
+                }
+            }.apply {
+                assertEquals(HttpStatusCode.Created, this.response.status())
+            }
+        }
+    }
 
 }
