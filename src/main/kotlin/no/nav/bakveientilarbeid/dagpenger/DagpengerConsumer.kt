@@ -1,6 +1,7 @@
 package no.nav.bakveientilarbeid.dagpenger
 
 import io.ktor.client.*
+import io.ktor.client.statement.*
 import no.nav.bakveientilarbeid.auth.AccessToken
 import no.nav.bakveientilarbeid.http.get
 import java.net.URL

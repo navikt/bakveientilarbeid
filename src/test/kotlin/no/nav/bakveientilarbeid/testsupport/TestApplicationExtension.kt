@@ -3,7 +3,7 @@ package no.nav.bakveientilarbeid.testsupport
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.typesafe.config.ConfigFactory
-import io.ktor.config.*
+import io.ktor.server.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.testing.*
 import no.nav.bakveientilarbeid.config.localModule

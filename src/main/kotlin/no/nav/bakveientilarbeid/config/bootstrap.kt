@@ -1,21 +1,24 @@
 package no.nav.bakveientilarbeid.config
 
-import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.client.*
-import io.ktor.features.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.routing.*
-import io.ktor.serialization.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.callid.*
+import io.ktor.server.plugins.callloging.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.*
+import io.ktor.server.plugins.defaultheaders.*
+import io.ktor.server.request.*
+import io.ktor.server.routing.*
 import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
-import no.nav.bakveientilarbeid.http.jsonConfig
 import no.nav.bakveientilarbeid.meldekort.meldekortRoute
 import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
 import no.nav.bakveientilarbeid.unleash.unleashRoute
-import no.nav.security.token.support.ktor.tokenValidationSupport
+import no.nav.security.token.support.v2.tokenValidationSupport
 import java.util.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
@@ -53,13 +56,13 @@ fun Application.module() {
     }
 
     install(CORS) {
-        host(environment.corsAllowedOrigins, schemes = listOf(environment.corsAllowedSchemes))
+        allowHost(environment.corsAllowedOrigins, schemes = listOf(environment.corsAllowedSchemes))
         allowCredentials = true
-        header(HttpHeaders.ContentType)
+        allowHeader(HttpHeaders.ContentType)
     }
 
     install(ContentNegotiation) {
-        json(jsonConfig())
+        json()
     }
 
     install(Authentication) {

@@ -1,7 +1,7 @@
 package no.nav.bakveientilarbeid.health
 
-import io.ktor.application.*
-import io.ktor.html.*
+import io.ktor.server.application.*
+import io.ktor.server.html.*
 import io.ktor.http.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.html.*

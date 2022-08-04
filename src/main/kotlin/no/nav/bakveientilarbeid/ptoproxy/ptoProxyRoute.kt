@@ -1,13 +1,13 @@
 package no.nav.bakveientilarbeid.ptoproxy
 
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.client.*
-import io.ktor.client.features.*
+import io.ktor.client.plugins.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import no.nav.bakveientilarbeid.auth.AccessToken

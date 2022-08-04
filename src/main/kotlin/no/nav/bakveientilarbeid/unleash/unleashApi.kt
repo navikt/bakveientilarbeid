@@ -1,9 +1,9 @@
 package no.nav.bakveientilarbeid.unleash
 
-import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.application.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
 import org.slf4j.LoggerFactory
 
@@ -15,7 +15,8 @@ fun Route.unleashRoute(
 
     get("/unleash") {
         val authenticatedUser = authenticatedUserService.getAuthenticatedUser(call)
-        val features = call.request.queryParameters.getAll("feature")
+        val queryParameters: Parameters = call.request.queryParameters
+        val features = queryParameters.getAll("feature")
 
         try {
             if (features?.isNotEmpty() == true) {
