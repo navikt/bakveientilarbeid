@@ -151,7 +151,7 @@
         <dependency>
             <groupId>com.github.navikt.tms-ktor-token-support</groupId>
             <artifactId>token-support-tokendings-exchange</artifactId>
-            <version>2022.04.26-13.05-59c7bf5e3472</version>
+            <version>2022.08.08-test-ktor-2</version>
         </dependency>
         <dependency>
             <groupId>com.github.navikt.dittnav-common-lib</groupId>
