@@ -7,16 +7,16 @@ import no.nav.bakveientilarbeid.http.get
 import java.net.URL
 
 class DagpengerConsumer(private val httpClient: HttpClient) {
-    suspend fun hentSoknad(userToken: AccessToken): String {
-        return httpClient.get(SOKNAD_URL, userToken)
+    suspend fun hentSoknad(userToken: AccessToken): HttpResponse {
+        return httpClient.get<String>(SOKNAD_URL, userToken)
     }
 
-    suspend fun hentVedtak(userToken: AccessToken): String {
-        return httpClient.get(VEDTAK_URL, userToken)
+    suspend fun hentVedtak(userToken: AccessToken): HttpResponse {
+        return httpClient.get<String>(VEDTAK_URL, userToken)
     }
 
-    suspend fun hentPabegynteSoknader(userToken: AccessToken): String {
-        return httpClient.get(PABEGYNTE_SOKNADER_URL, userToken)
+    suspend fun hentPabegynteSoknader(userToken: AccessToken): HttpResponse {
+        return httpClient.get<String>(PABEGYNTE_SOKNADER_URL, userToken)
     }
 
     companion object {
