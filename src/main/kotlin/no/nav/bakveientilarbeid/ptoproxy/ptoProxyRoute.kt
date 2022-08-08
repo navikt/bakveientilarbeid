@@ -28,11 +28,8 @@ fun Route.ptoProxyRoute(
 ) {
 
     get("/oppfolging") {
-        logger.info("### GET OPPFOLGING starter ")
         val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
-        logger.info("### GET OPPFOLGING har hentet token ")
         val oppfolgingUrl = URL("$PTO_PROXY_URL/veilarboppfolging/api/oppfolging")
-        logger.info("### GET OPPFOLGING kaller $oppfolgingUrl")
         handleRequest(call, httpClient, token, oppfolgingUrl, logger)
     }
 
