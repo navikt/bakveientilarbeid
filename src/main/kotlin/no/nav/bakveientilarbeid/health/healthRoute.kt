@@ -1,10 +1,10 @@
 package no.nav.bakveientilarbeid.health
 
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.Routing
-import io.ktor.routing.get
+import io.ktor.server.response.*
+import io.ktor.server.routing.Routing
+import io.ktor.server.routing.get
 import no.nav.bakveientilarbeid.config.logger
 
 fun Routing.healthRoute(healthService: HealthService) {
