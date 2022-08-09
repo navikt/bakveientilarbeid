@@ -57,3 +57,8 @@ spec:
           namespace: teamdagpenger
         - application: meldekort-api
           namespace: meldekort
+  gcp:
+    sqlInstances:
+      - type: POSTGRES_14
+        databases:
+          - name: bakveientilarbeid
