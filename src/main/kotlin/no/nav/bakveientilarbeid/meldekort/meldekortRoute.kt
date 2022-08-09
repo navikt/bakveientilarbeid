@@ -1,5 +1,7 @@
 package no.nav.bakveientilarbeid.meldekort
 
+import io.ktor.client.plugins.*
+import io.ktor.client.statement.*
 import io.ktor.server.application.*
 import io.ktor.http.*
 import io.ktor.server.response.*
@@ -10,20 +12,32 @@ import no.nav.bakveientilarbeid.config.logger
 fun Route.meldekortRoute(meldekortService: MeldekortService, authenticatedUserService: AuthenticatedUserService) {
 
     get("/meldekort") {
-        try {
-            call.respond(HttpStatusCode.OK, meldekortService.hentMeldekort(authenticatedUserService.getAuthenticatedUser(call)))
-        } catch (exception: Exception) {
-            logger.warn("Feil ved henting av meldekort", exception)
-            call.respond(HttpStatusCode.ServiceUnavailable)
-        }
+        Result.runCatching {
+            meldekortService.hentMeldekort(authenticatedUserService.getAuthenticatedUser(call))
+        }.fold(
+            onSuccess = {
+                call.respondBytes(bytes= it.readBytes(), status = it.status)
+            },
+            onFailure = {
+                val exception = it as ResponseException
+                logger.warn("Feil ved henting av meldekort, status=${exception.response.status}")
+                call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+            }
+        )
     }
 
     get("/meldekort/status") {
-        try {
-            call.respond(HttpStatusCode.OK, meldekortService.hentStatus(authenticatedUserService.getAuthenticatedUser(call)))
-        } catch (exception: Exception) {
-            logger.warn("Feil ved henting av meldekort-status", exception)
-            call.respond(HttpStatusCode.ServiceUnavailable)
-        }
+        Result.runCatching {
+            meldekortService.hentStatus(authenticatedUserService.getAuthenticatedUser(call))
+        }.fold(
+            onSuccess = {
+                call.respondBytes(bytes= it.readBytes(), status = it.status)
+            },
+            onFailure = {
+                val exception = it as ResponseException
+                logger.warn("Feil ved henting av meldekort-status, status=${exception.response.status}")
+                call.respondBytes(status = exception.response.status, bytes = exception.response.readBytes())
+            }
+        )
     }
 }

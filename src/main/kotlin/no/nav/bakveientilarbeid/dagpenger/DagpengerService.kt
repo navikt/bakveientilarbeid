@@ -11,21 +11,21 @@ class DagpengerService(
 
     suspend fun hentToken(user: AuthenticatedUser) = dagpengerTokendings.exchangeToken(user)
 
-    suspend fun hentSoknad(user: AuthenticatedUser): String {
+    suspend fun hentSoknad(user: AuthenticatedUser): HttpResponse {
         logger.info("Henter dagpengesøknader for bruker")
         val token = hentToken(user)
-        return dagpengerConsumer.hentSoknad(token).bodyAsText()
+        return dagpengerConsumer.hentSoknad(token)
     }
 
-    suspend fun hentVedtak(user: AuthenticatedUser): String {
+    suspend fun hentVedtak(user: AuthenticatedUser): HttpResponse {
         logger.info("Henter dagpengevedtak for bruker")
         val token = hentToken(user)
-        return dagpengerConsumer.hentVedtak(token).bodyAsText()
+        return dagpengerConsumer.hentVedtak(token)
     }
 
-    suspend fun hentPabegynteSoknader(user: AuthenticatedUser): String {
+    suspend fun hentPabegynteSoknader(user: AuthenticatedUser): HttpResponse {
         logger.info("Henter påbegynte dagpengesøknader for bruker")
         val token = hentToken(user)
-        return dagpengerConsumer.hentPabegynteSoknader(token).bodyAsText()
+        return dagpengerConsumer.hentPabegynteSoknader(token)
     }
 }
