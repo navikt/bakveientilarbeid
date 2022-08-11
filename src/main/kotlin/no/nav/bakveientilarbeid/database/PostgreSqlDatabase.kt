@@ -28,7 +28,7 @@ class PostgreSqlDatabase(env: Environment) : Database {
     private fun hikariCommonConfig(env: Environment): HikariConfig {
         val config = HikariConfig().apply {
             driverClassName = "org.postgresql.Driver"
-            jdbcUrl = env.dbUrl
+            jdbcUrl = "jdbc:${env.dbUrl}"
             minimumIdle = 1
             maxLifetime = 30001
             maximumPoolSize = 3
