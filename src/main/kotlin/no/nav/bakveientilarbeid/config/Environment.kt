@@ -6,9 +6,9 @@ data class Environment(
     val corsAllowedSchemes: String = requireProperty("CORS_ALLOWED_SCHEMES"),
     val ptoProxyUrl: String = requireProperty("PTO_PROXY_URL"),
     val unleashApiUrl: String = requireProperty("UNLEASH_API_URL"),
-    val dbUser: String? = getPropertyOrNull("DB_USER") ,
-    val dbPassword: String? = getPropertyOrNull("DB_PASSWORD"),
-    val dbUrl: String? = getPropertyOrNull("DB_URL")
+    val dbUser: String? = getPropertyOrNull("${databaseEnvProperty()}_USERNAME"),
+    val dbPassword: String? = getPropertyOrNull("${databaseEnvProperty()}_PASSWORD"),
+    val dbUrl: String? = getPropertyOrNull("${databaseEnvProperty()}_URL")
 )
 
 fun requireProperty(property: String) =
@@ -28,6 +28,8 @@ fun applicationNameOrNull() =
 
 fun isDevelopment(): Boolean =
     requireClusterName().startsWith("dev")
+
+fun databaseEnvProperty(): String = "NAIS_DATABASE_BAKVEIENTILARBEID_BAKVEIENTILARBEID${if (isDevelopment()) "_DEV" else ""}"
 
 fun ifDevelopment(block: () -> Any) {
     if (isDevelopment()) {
