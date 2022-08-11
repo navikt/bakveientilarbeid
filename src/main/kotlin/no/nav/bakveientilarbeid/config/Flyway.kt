@@ -5,6 +5,6 @@ import javax.sql.DataSource
 
 object Flyway {
     fun configure(dataSource: DataSource): FluentConfiguration {
-        return Flyway.configure(dataSource)
+        return org.flywaydb.core.Flyway.configure().dataSource(dataSource)
     }
 }
