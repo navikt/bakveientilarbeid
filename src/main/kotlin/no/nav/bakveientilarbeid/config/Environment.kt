@@ -8,7 +8,7 @@ data class Environment(
     val unleashApiUrl: String = requireProperty("UNLEASH_API_URL"),
     val dbUser: String? = getPropertyOrNull("${databaseEnvProperty()}_USERNAME"),
     val dbPassword: String? = getPropertyOrNull("${databaseEnvProperty()}_PASSWORD"),
-    val dbUrl: String? = getPropertyOrNull("jdbc:postgresql://localhost:5432/bakveientilarbeid${if (isDevelopment()) "-dev" else ""}")
+    val dbUrl: String = "jdbc:postgresql://localhost:5432/bakveientilarbeid${if (isDevelopment()) "-dev" else ""}"
 )
 
 fun requireProperty(property: String) =
