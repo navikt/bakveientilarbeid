@@ -84,6 +84,8 @@ fun Application.module() {
         }
     }
 
+    Flyway.configure(appContext.postgreSqlDatabase.dataSource).load().migrate()
+
     configureShutdownHook(appContext.httpClient)
 }
 

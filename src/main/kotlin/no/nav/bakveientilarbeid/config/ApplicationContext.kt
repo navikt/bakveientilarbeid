@@ -7,6 +7,7 @@ import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
 import no.nav.bakveientilarbeid.dagpenger.DagpengerConsumer
 import no.nav.bakveientilarbeid.dagpenger.DagpengerService
 import no.nav.bakveientilarbeid.dagpenger.DagpengerTokendings
+import no.nav.bakveientilarbeid.database.PostgreSqlDatabase
 import no.nav.bakveientilarbeid.health.HealthService
 import no.nav.bakveientilarbeid.http.HttpClientBuilder
 import no.nav.bakveientilarbeid.meldekort.MeldekortConsumer
@@ -34,6 +35,8 @@ class ApplicationContext {
 
     val unleashClient = createUnleashClient(environment)
     val unleashService = UnleashService(unleashClient)
+
+    val postgreSqlDatabase = PostgreSqlDatabase(environment)
 
     private fun createUnleashClient(environment: Environment): Unleash {
         val unleashUrl = environment.unleashApiUrl

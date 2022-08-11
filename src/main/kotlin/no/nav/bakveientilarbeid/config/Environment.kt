@@ -5,7 +5,10 @@ data class Environment(
     val corsAllowedOrigins: String = requireProperty("CORS_ALLOWED_ORIGINS"),
     val corsAllowedSchemes: String = requireProperty("CORS_ALLOWED_SCHEMES"),
     val ptoProxyUrl: String = requireProperty("PTO_PROXY_URL"),
-    val unleashApiUrl: String = requireProperty("UNLEASH_API_URL")
+    val unleashApiUrl: String = requireProperty("UNLEASH_API_URL"),
+    val dbUser: String? = getPropertyOrNull("DB_USER") ,
+    val dbPassword: String? = getPropertyOrNull("DB_PASSWORD"),
+    val dbUrl: String? = getPropertyOrNull("DB_URL")
 )
 
 fun requireProperty(property: String) =
