@@ -10,6 +10,8 @@ import no.nav.bakveientilarbeid.http.HttpClientBuilder
 import no.nav.bakveientilarbeid.meldekort.MeldekortConsumer
 import no.nav.bakveientilarbeid.meldekort.MeldekortService
 import no.nav.bakveientilarbeid.meldekort.MeldekortTokendings
+import no.nav.bakveientilarbeid.profil.ProfilRepository
+import no.nav.bakveientilarbeid.profil.ProfilService
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 
 class ApplicationContextLocal {
@@ -26,4 +28,7 @@ class ApplicationContextLocal {
     val healthService = mockk<HealthService>()
     val dagpengerService = DagpengerService(dagpengerConsumer, dagpengerTokendings)
     val meldekortService = MeldekortService(meldekortConsumer, meldekortTokendings)
+
+    val profilRepositoryImpl = mockk<ProfilRepository>()
+    val profilService = ProfilService(profilRepositoryImpl)
 }

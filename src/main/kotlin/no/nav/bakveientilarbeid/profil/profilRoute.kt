@@ -1,0 +1,20 @@
+package no.nav.bakveientilarbeid.profil
+
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
+
+fun Route.profilRoute(authenticatedUserService: AuthenticatedUserService, profilService: ProfilService) {
+    get("/profil") {
+        val user = authenticatedUserService.getAuthenticatedUser(call)
+        val profil = profilService.hentProfil(user)
+
+        call.respond(HttpStatusCode.NoContent)
+    }
+
+//    post("/profil") {
+//
+//    }
+}
