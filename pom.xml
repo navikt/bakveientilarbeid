@@ -131,6 +131,11 @@
             <artifactId>unleash-client-java</artifactId>
             <version>4.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-datetime-jvm</artifactId>
+            <version>0.4.0</version>
+        </dependency>
 
         <!-- NAV -->
         <dependency>

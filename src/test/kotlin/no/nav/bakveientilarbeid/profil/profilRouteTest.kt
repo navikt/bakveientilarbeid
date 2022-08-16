@@ -1,26 +1,20 @@
 package no.nav.bakveientilarbeid.profil
 
-import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import io.mockk.every
-import io.mockk.mockk
+import kotlinx.datetime.LocalDateTime
 import no.nav.bakveientilarbeid.config.ApplicationContextLocal
 import no.nav.bakveientilarbeid.config.localModule
-import no.nav.bakveientilarbeid.ptoproxy.ptoProxyUrl
-import no.nav.bakveientilarbeid.testsupport.TestApplicationExtension
-import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ProfilRouteTest {
     companion object {
-//        private val profilRepositoryImpl = mockk<ProfilRepository>();
-
         fun mockEnv() {
             System.setProperty("CORS_ALLOWED_ORIGINS", "localhost")
             System.setProperty("CORS_ALLOWED_SCHEMES", "https")
@@ -60,5 +54,35 @@ class ProfilRouteTest {
         val response = client.get("/profil")
 
         assertEquals(HttpStatusCode.NoContent, response.status)
+    }
+
+    @Test
+    fun `GET gir 200 med profil for bruker`() = testApplication {
+        val context = ApplicationContextLocal()
+        val date = LocalDateTime(2022,8, 16, 0, 0, 0)
+        val vtaKanReaktiveresVisning = VtaKanReaktiveresVisning(date, true)
+
+        every {
+            context.profilRepositoryImpl.hentProfil(any())
+        } returns ProfilEntity(
+            "1",
+            "42",
+            ProfilJson(vtaKanReaktiveresVisning),
+            date,
+            date
+        )
+
+        this.environment {
+            config = MapApplicationConfig("ktor.environment" to "test")
+        }
+
+        this.application {
+            localModule(appContext = context)
+        }
+
+        val response = client.get("/profil")
+
+        assertEquals(HttpStatusCode.OK, response.status)
+        assertEquals("""{"profil":{"vtaKanReaktiveresVisning":{"updated":"2022-08-16T00:00","state":true}}}""", response.bodyAsText())
     }
 }

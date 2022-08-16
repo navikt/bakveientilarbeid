@@ -11,10 +11,11 @@ fun Route.profilRoute(authenticatedUserService: AuthenticatedUserService, profil
         val user = authenticatedUserService.getAuthenticatedUser(call)
         val profil = profilService.hentProfil(user)
 
-        call.respond(HttpStatusCode.NoContent)
+        if (profil == null) {
+            call.respond(HttpStatusCode.NoContent)
+        } else {
+            call.respond(HttpStatusCode.OK, ProfilDto.fra(profil))
+        }
     }
 
-//    post("/profil") {
-//
-//    }
 }
