@@ -8,13 +8,17 @@ import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
 
 fun Route.profilRoute(authenticatedUserService: AuthenticatedUserService, profilService: ProfilService) {
     get("/profil") {
-        val user = authenticatedUserService.getAuthenticatedUser(call)
-        val profil = profilService.hentProfil(user)
+        try {
+            val user = authenticatedUserService.getAuthenticatedUser(call)
+            val profil = profilService.hentProfil(user)
 
-        if (profil == null) {
-            call.respond(HttpStatusCode.NoContent)
-        } else {
-            call.respond(HttpStatusCode.OK, ProfilDto.fra(profil))
+            if (profil == null) {
+                call.respond(HttpStatusCode.NoContent)
+            } else {
+                call.respond(HttpStatusCode.OK, ProfilDto.fra(profil))
+            }
+        } catch (e: Exception) {
+            call.respond(HttpStatusCode.InternalServerError)
         }
     }
 

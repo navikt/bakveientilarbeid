@@ -87,4 +87,25 @@ class ProfilRouteTest {
         assertEquals(HttpStatusCode.OK, response.status)
         assertEquals(Json.encodeToString(ProfilDto(ProfilJson(vtaKanReaktiveresVisning))), response.bodyAsText())
     }
+
+    @Test
+    fun `GET gir 500 når databasen kaster exception`() = testApplication {
+        val context = ApplicationContextLocal()
+
+        every {
+            context.profilRepositoryImpl.hentProfil(any())
+        }.throws(Exception("database error"))
+
+        this.environment {
+            config = MapApplicationConfig("ktor.environment" to "test")
+        }
+
+        this.application {
+            localModule(appContext = context)
+        }
+
+        val response = client.get("/profil")
+
+        assertEquals(HttpStatusCode.InternalServerError, response.status)
+    }
 }
