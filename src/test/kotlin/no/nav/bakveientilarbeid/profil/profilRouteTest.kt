@@ -1,8 +1,10 @@
 package no.nav.bakveientilarbeid.profil
 
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import io.mockk.every
@@ -113,10 +115,6 @@ class ProfilRouteTest {
     fun `POST gir 400 når ugyldig payload`() = testApplication {
         val context = ApplicationContextLocal()
 
-        every {
-            context.profilRepositoryImpl.hentProfil(any())
-        }.throws(Exception("database error"))
-
         this.environment {
             config = MapApplicationConfig("ktor.environment" to "test")
         }
@@ -131,5 +129,72 @@ class ProfilRouteTest {
         }
 
         assertEquals(HttpStatusCode.BadRequest, response.status)
+    }
+
+    @Test
+    fun `POST gir 201 når profil lagres`() = testApplication {
+        val client = createClient {
+            install(ContentNegotiation) {
+                json()
+            }
+        }
+
+        val context = ApplicationContextLocal()
+
+        this.environment {
+            config = MapApplicationConfig("ktor.environment" to "test")
+        }
+
+        this.application {
+            localModule(appContext = context)
+        }
+
+        val date = LocalDateTime(2022,8, 16, 0, 0, 0)
+        val vtaKanReaktiveresVisning = VtaKanReaktiveresVisning(date, true)
+
+        every {
+            context.profilRepositoryImpl.lagreProfil(any(), ProfilJson(vtaKanReaktiveresVisning))
+        } returns Unit
+
+        val response = client.post("/profil") {
+            contentType(ContentType.Application.Json)
+            setBody(ProfilJson(vtaKanReaktiveresVisning))
+        }
+
+        assertEquals(HttpStatusCode.Created, response.status)
+        assertEquals(Json.encodeToString(ProfilJson(vtaKanReaktiveresVisning)), response.bodyAsText())
+    }
+
+    @Test
+    fun `POST gir 500 når databasen kaster exception`() = testApplication {
+        val client = createClient {
+            install(ContentNegotiation) {
+                json()
+            }
+        }
+
+        val context = ApplicationContextLocal()
+
+        this.environment {
+            config = MapApplicationConfig("ktor.environment" to "test")
+        }
+
+        this.application {
+            localModule(appContext = context)
+        }
+
+        val date = LocalDateTime(2022,8, 16, 0, 0, 0)
+        val vtaKanReaktiveresVisning = VtaKanReaktiveresVisning(date, true)
+
+        every {
+            context.profilRepositoryImpl.lagreProfil(any(), any())
+        }.throws(Exception("database error"))
+
+        val response = client.post("/profil") {
+            contentType(ContentType.Application.Json)
+            setBody(ProfilJson(vtaKanReaktiveresVisning))
+        }
+
+        assertEquals(HttpStatusCode.InternalServerError, response.status)
     }
 }

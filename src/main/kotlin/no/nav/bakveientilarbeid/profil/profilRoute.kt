@@ -31,8 +31,12 @@ fun Route.profilRoute(authenticatedUserService: AuthenticatedUserService, profil
         try {
             val profil = call.receive<ProfilJson>()
             profilService.lagreProfil(user, profil)
+
+            call.respond(HttpStatusCode.Created, profil)
         } catch (e: SerializationException) {
             call.respond(HttpStatusCode.BadRequest)
+        } catch (e: Exception) {
+            call.respond(HttpStatusCode.InternalServerError)
         }
     }
 
