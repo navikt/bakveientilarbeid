@@ -7,6 +7,8 @@ import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import io.mockk.every
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
 import no.nav.bakveientilarbeid.config.ApplicationContextLocal
 import no.nav.bakveientilarbeid.config.localModule
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -83,6 +85,6 @@ class ProfilRouteTest {
         val response = client.get("/profil")
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("""{"profil":{"vtaKanReaktiveresVisning":{"updated":"2022-08-16T00:00","state":true}}}""", response.bodyAsText())
+        assertEquals(Json.encodeToString(ProfilDto(ProfilJson(vtaKanReaktiveresVisning))), response.bodyAsText())
     }
 }
