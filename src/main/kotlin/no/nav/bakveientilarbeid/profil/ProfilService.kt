@@ -6,4 +6,7 @@ class ProfilService(val profilRepository: ProfilRepository) {
     fun hentProfil(bruker: AuthenticatedUser): ProfilEntity? {
         return profilRepository.hentProfil(bruker)
     }
+    fun lagreProfil(bruker: AuthenticatedUser, profil: ProfilJson) {
+        profilRepository.lagreProfil(bruker, profil)
+    }
 }

@@ -2,11 +2,12 @@ package no.nav.bakveientilarbeid.profil
 
 import kotlinx.serialization.Contextual
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class VtaKanReaktiveresVisning(@Contextual val updated: LocalDateTime, val  state: Boolean)
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class ProfilJson(
     val vtaKanReaktiveresVisning: VtaKanReaktiveresVisning?
 )

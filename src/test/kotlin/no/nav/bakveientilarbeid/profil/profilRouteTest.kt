@@ -85,7 +85,7 @@ class ProfilRouteTest {
         val response = client.get("/profil")
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals(Json.encodeToString(ProfilDto(ProfilJson(vtaKanReaktiveresVisning))), response.bodyAsText())
+        assertEquals(Json.encodeToString(ProfilJson(vtaKanReaktiveresVisning)), response.bodyAsText())
     }
 
     @Test
@@ -107,5 +107,29 @@ class ProfilRouteTest {
         val response = client.get("/profil")
 
         assertEquals(HttpStatusCode.InternalServerError, response.status)
+    }
+
+    @Test
+    fun `POST gir 400 når ugyldig payload`() = testApplication {
+        val context = ApplicationContextLocal()
+
+        every {
+            context.profilRepositoryImpl.hentProfil(any())
+        }.throws(Exception("database error"))
+
+        this.environment {
+            config = MapApplicationConfig("ktor.environment" to "test")
+        }
+
+        this.application {
+            localModule(appContext = context)
+        }
+
+        val response = client.post("/profil") {
+            contentType(ContentType.Application.Json)
+            setBody("""{"ugyldig": true}""")
+        }
+
+        assertEquals(HttpStatusCode.BadRequest, response.status)
     }
 }
