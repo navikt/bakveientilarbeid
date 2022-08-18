@@ -5,7 +5,7 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Feedback(@Contextual val updated: LocalDateTime, val  state: Boolean)
+data class Feedback(@Contextual val updated: LocalDateTime, val valgt: String)
 
 @Serializable
 data class ProfilJson(

@@ -64,7 +64,7 @@ class ProfilRouteTest {
     fun `GET gir 200 med profil for bruker`() = testApplication {
         val context = ApplicationContextLocal()
         val date = LocalDateTime(2022,8, 16, 0, 0, 0)
-        val aiaFeedbackMeldekortForklaring = Feedback(date, true)
+        val aiaFeedbackMeldekortForklaring = Feedback(date, "vet ikke")
 
         every {
             context.profilRepositoryImpl.hentProfil(any())
@@ -181,7 +181,7 @@ class ProfilRouteTest {
         }
 
         val date = LocalDateTime(2022,8, 16, 0, 0, 0)
-        val aiaFeedbackMeldekortForklaring = Feedback(date, true)
+        val aiaFeedbackMeldekortForklaring = Feedback(date, "ja")
 
         every {
             context.profilRepositoryImpl.lagreProfil(any(), any())

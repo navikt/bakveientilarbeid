@@ -24,8 +24,8 @@ class ProfilRepositoryDbIntegrationTest {
 
     @Test
     fun `returnerer nyeste profil for bruker`() {
-        val profilJson1 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(LocalDateTime(2021, 8, 17, 14, 15, 0), true))
-        val profilJson2 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(LocalDateTime(2022, 8, 17, 14, 15, 0), true))
+        val profilJson1 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(LocalDateTime(2021, 8, 17, 14, 15, 0), "nei"))
+        val profilJson2 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(LocalDateTime(2022, 8, 17, 14, 15, 0), "ja"))
         db.lagreProfil("42", profilJson1)
         db.lagreProfil("42", profilJson2)
 
