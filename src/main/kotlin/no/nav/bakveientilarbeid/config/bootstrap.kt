@@ -15,7 +15,9 @@ import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
+import no.nav.bakveientilarbeid.http.jsonConfig
 import no.nav.bakveientilarbeid.meldekort.meldekortRoute
+import no.nav.bakveientilarbeid.profil.profilRoute
 import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
 import no.nav.bakveientilarbeid.unleash.unleashRoute
 import no.nav.security.token.support.v2.tokenValidationSupport
@@ -62,7 +64,7 @@ fun Application.module() {
     }
 
     install(ContentNegotiation) {
-        json()
+        json(jsonConfig())
     }
 
     install(Authentication) {
@@ -81,6 +83,7 @@ fun Application.module() {
                 environment.ptoProxyUrl
             )
             unleashRoute(appContext.authenticatedUserService, appContext.unleashService)
+            profilRoute(appContext.authenticatedUserService, appContext.profilService)
         }
     }
 
