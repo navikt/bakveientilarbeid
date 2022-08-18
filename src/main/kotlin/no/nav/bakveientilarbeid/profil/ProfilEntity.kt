@@ -5,11 +5,18 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class VtaKanReaktiveresVisning(@Contextual val updated: LocalDateTime, val  state: Boolean)
+data class Feedback(@Contextual val updated: LocalDateTime, val  state: Boolean)
 
 @Serializable
 data class ProfilJson(
-    val vtaKanReaktiveresVisning: VtaKanReaktiveresVisning?
+    val aiaHarMottattEgenvurderingKvittering: Boolean? = null,
+    val aiaFeedbackMeldekortForklaring: Feedback? = null,
+    val aiaFeedbackHjelpOgStotteForklaring: Feedback? = null,
+    val aiaFeedbackHjelpOgStotteForklaringUngdom: Feedback? = null,
+    val aiaFeedbackSvarFraRegistreringen: Feedback? = null,
+    val aiaAvslaattEgenvurdering: LocalDateTime? = null,
+    val aiaAvslaattEgenvurderingUke12: LocalDateTime? = null,
+    val aiaValgtPengestotteVisning: String? = null
 )
 
 data class ProfilEntity(

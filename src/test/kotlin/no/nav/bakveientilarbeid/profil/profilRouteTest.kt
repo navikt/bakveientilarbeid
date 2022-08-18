@@ -64,14 +64,14 @@ class ProfilRouteTest {
     fun `GET gir 200 med profil for bruker`() = testApplication {
         val context = ApplicationContextLocal()
         val date = LocalDateTime(2022,8, 16, 0, 0, 0)
-        val vtaKanReaktiveresVisning = VtaKanReaktiveresVisning(date, true)
+        val aiaFeedbackMeldekortForklaring = Feedback(date, true)
 
         every {
             context.profilRepositoryImpl.hentProfil(any())
         } returns ProfilEntity(
             "1",
             "42",
-            ProfilJson(vtaKanReaktiveresVisning),
+            ProfilJson(aiaFeedbackMeldekortForklaring = aiaFeedbackMeldekortForklaring),
             date,
         )
 
@@ -86,7 +86,7 @@ class ProfilRouteTest {
         val response = client.get("/profil")
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals(Json.encodeToString(ProfilJson(vtaKanReaktiveresVisning)), response.bodyAsText())
+        assertEquals(Json.encodeToString(ProfilJson(aiaFeedbackMeldekortForklaring = aiaFeedbackMeldekortForklaring)), response.bodyAsText())
     }
 
     @Test
@@ -148,20 +148,18 @@ class ProfilRouteTest {
             localModule(appContext = context)
         }
 
-        val date = LocalDateTime(2022,8, 16, 0, 0, 0)
-        val vtaKanReaktiveresVisning = VtaKanReaktiveresVisning(date, true)
-
         every {
-            context.profilRepositoryImpl.lagreProfil(any(), ProfilJson(vtaKanReaktiveresVisning))
+            context.profilRepositoryImpl.lagreProfil(any(), any())
         } returns Unit
 
         val response = client.post("/profil") {
             contentType(ContentType.Application.Json)
-            setBody(ProfilJson(vtaKanReaktiveresVisning))
+//            setBody("""{"aiaHarMottattEgenvurderingKvittering": true}""")
+            setBody(ProfilJson(aiaHarMottattEgenvurderingKvittering = true))
         }
 
         assertEquals(HttpStatusCode.Created, response.status)
-        assertEquals(Json.encodeToString(ProfilJson(vtaKanReaktiveresVisning)), response.bodyAsText())
+        assertEquals(Json.encodeToString(ProfilJson(aiaHarMottattEgenvurderingKvittering = true)), response.bodyAsText())
     }
 
     @Test
@@ -183,7 +181,7 @@ class ProfilRouteTest {
         }
 
         val date = LocalDateTime(2022,8, 16, 0, 0, 0)
-        val vtaKanReaktiveresVisning = VtaKanReaktiveresVisning(date, true)
+        val aiaFeedbackMeldekortForklaring = Feedback(date, true)
 
         every {
             context.profilRepositoryImpl.lagreProfil(any(), any())
@@ -191,7 +189,7 @@ class ProfilRouteTest {
 
         val response = client.post("/profil") {
             contentType(ContentType.Application.Json)
-            setBody(ProfilJson(vtaKanReaktiveresVisning))
+            setBody(ProfilJson(aiaFeedbackMeldekortForklaring = aiaFeedbackMeldekortForklaring))
         }
 
         assertEquals(HttpStatusCode.InternalServerError, response.status)

@@ -2,7 +2,7 @@ package no.nav.bakveientilarbeid.database
 
 import kotlinx.datetime.LocalDateTime
 import no.nav.bakveientilarbeid.profil.ProfilJson
-import no.nav.bakveientilarbeid.profil.VtaKanReaktiveresVisning
+import no.nav.bakveientilarbeid.profil.Feedback
 import org.junit.AfterClass
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -24,8 +24,8 @@ class ProfilRepositoryDbIntegrationTest {
 
     @Test
     fun `returnerer nyeste profil for bruker`() {
-        val profilJson1 = ProfilJson(VtaKanReaktiveresVisning(LocalDateTime(2021, 8, 17, 14, 15, 0), true))
-        val profilJson2 = ProfilJson(VtaKanReaktiveresVisning(LocalDateTime(2022, 8, 17, 14, 15, 0), true))
+        val profilJson1 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(LocalDateTime(2021, 8, 17, 14, 15, 0), true))
+        val profilJson2 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(LocalDateTime(2022, 8, 17, 14, 15, 0), true))
         db.lagreProfil("42", profilJson1)
         db.lagreProfil("42", profilJson2)
 
