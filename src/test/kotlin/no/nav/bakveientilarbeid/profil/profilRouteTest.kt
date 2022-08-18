@@ -73,7 +73,6 @@ class ProfilRouteTest {
             "42",
             ProfilJson(vtaKanReaktiveresVisning),
             date,
-            date
         )
 
         this.environment {

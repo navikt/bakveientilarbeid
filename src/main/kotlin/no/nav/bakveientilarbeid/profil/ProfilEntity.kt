@@ -1,7 +1,7 @@
 package no.nav.bakveientilarbeid.profil
 
-import kotlinx.serialization.Contextual
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,5 +17,4 @@ data class ProfilEntity(
     val brukerId: String,
     val profil: ProfilJson,
     val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
 )

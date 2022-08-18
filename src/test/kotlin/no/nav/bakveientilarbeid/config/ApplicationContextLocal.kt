@@ -5,6 +5,8 @@ import no.nav.bakveientilarbeid.auth.AuthenticatedUserService
 import no.nav.bakveientilarbeid.dagpenger.DagpengerConsumer
 import no.nav.bakveientilarbeid.dagpenger.DagpengerService
 import no.nav.bakveientilarbeid.dagpenger.DagpengerTokendings
+import no.nav.bakveientilarbeid.database.H2Database
+import no.nav.bakveientilarbeid.database.ProfilRepositoryImpl
 import no.nav.bakveientilarbeid.health.HealthService
 import no.nav.bakveientilarbeid.http.HttpClientBuilder
 import no.nav.bakveientilarbeid.meldekort.MeldekortConsumer
