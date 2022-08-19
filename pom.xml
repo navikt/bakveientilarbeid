@@ -11,7 +11,7 @@
 
     <properties>
         <main.class>no.nav.bakveientilarbeid.config.BootstrapKt</main.class>
-        <ktor.version>2.0.2</ktor.version>
+        <ktor.version>2.1.0</ktor.version>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.version>1.7.10</kotlin.version>
         <serialization.version>1.4.0-RC</serialization.version>
@@ -188,6 +188,12 @@
             <artifactId>ktor-server-tests-jvm</artifactId>
             <version>${ktor.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jetbrains.kotlinx</groupId>
+                    <artifactId>kotlinx-coroutines-bom</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
