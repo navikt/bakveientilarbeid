@@ -1,9 +1,8 @@
 package no.nav.bakveientilarbeid.database
 
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
-import no.nav.bakveientilarbeid.profil.ProfilJson
 import no.nav.bakveientilarbeid.profil.Feedback
+import no.nav.bakveientilarbeid.profil.ProfilJson
 import org.junit.AfterClass
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

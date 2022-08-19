@@ -16,7 +16,6 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
 import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
-import no.nav.bakveientilarbeid.http.jsonConfig
 import no.nav.bakveientilarbeid.meldekort.meldekortRoute
 import no.nav.bakveientilarbeid.profil.profilRoute
 import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
