@@ -1,7 +1,7 @@
 package no.nav.bakveientilarbeid.database
 
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.toKotlinLocalDateTime
+import kotlinx.datetime.toKotlinInstant
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -44,7 +44,7 @@ fun Connection.hentProfilQuery(brukerId: String): ProfilEntity? {
                 id = getString(1),
                 brukerId = getString(2),
                 profil = Json.decodeFromString<ProfilJson>(getString(3)),
-                createdAt = getTimestamp(4).toLocalDateTime().toKotlinLocalDateTime(),
+                createdAt = getTimestamp(4).toInstant().toKotlinInstant(),
             )
         }
     }

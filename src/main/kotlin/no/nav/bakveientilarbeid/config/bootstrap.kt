@@ -13,6 +13,7 @@ import io.ktor.server.plugins.cors.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.json.Json
 import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
 import no.nav.bakveientilarbeid.http.jsonConfig
@@ -64,7 +65,9 @@ fun Application.module() {
     }
 
     install(ContentNegotiation) {
-        json(jsonConfig())
+        json(Json {
+            this.encodeDefaults = false
+        })
     }
 
     install(Authentication) {

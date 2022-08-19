@@ -1,5 +1,6 @@
 package no.nav.bakveientilarbeid.database
 
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import no.nav.bakveientilarbeid.profil.ProfilJson
 import no.nav.bakveientilarbeid.profil.Feedback
@@ -24,8 +25,8 @@ class ProfilRepositoryDbIntegrationTest {
 
     @Test
     fun `returnerer nyeste profil for bruker`() {
-        val profilJson1 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(LocalDateTime(2021, 8, 17, 14, 15, 0), "nei"))
-        val profilJson2 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(LocalDateTime(2022, 8, 17, 14, 15, 0), "ja"))
+        val profilJson1 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(Instant.parse("2021-08-17T14:15:00.000Z"), "nei"))
+        val profilJson2 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(Instant.parse("2022-08-17T14:15:00.000Z"), "ja"))
         db.lagreProfil("42", profilJson1)
         db.lagreProfil("42", profilJson2)
 

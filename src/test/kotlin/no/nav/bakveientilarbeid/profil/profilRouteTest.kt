@@ -1,6 +1,6 @@
 package no.nav.bakveientilarbeid.profil
 
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -8,9 +8,9 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import io.mockk.every
-import kotlinx.datetime.LocalDateTime
-import kotlinx.serialization.json.Json
+import kotlinx.datetime.Instant
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import no.nav.bakveientilarbeid.config.ApplicationContextLocal
 import no.nav.bakveientilarbeid.config.localModule
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -63,7 +63,7 @@ class ProfilRouteTest {
     @Test
     fun `GET gir 200 med profil for bruker`() = testApplication {
         val context = ApplicationContextLocal()
-        val date = LocalDateTime(2022,8, 16, 0, 0, 0)
+        val date = Instant.parse("2022-08-16T08:41:16.035Z")
         val aiaFeedbackMeldekortForklaring = Feedback(date, "vet ikke")
 
         every {
@@ -154,12 +154,16 @@ class ProfilRouteTest {
 
         val response = client.post("/profil") {
             contentType(ContentType.Application.Json)
-//            setBody("""{"aiaHarMottattEgenvurderingKvittering": true}""")
-            setBody(ProfilJson(aiaHarMottattEgenvurderingKvittering = true))
+            setBody("""{"aiaFeedbackMeldekortForklaring":{"updated":"2022-08-19T08:41:16.035Z","valgt":"vet ikke"}}""")
         }
 
         assertEquals(HttpStatusCode.Created, response.status)
-        assertEquals(Json.encodeToString(ProfilJson(aiaHarMottattEgenvurderingKvittering = true)), response.bodyAsText())
+        assertEquals(Json.encodeToString(
+            ProfilJson(
+                aiaFeedbackMeldekortForklaring = Feedback(
+                    Instant.parse("2022-08-19T08:41:16.035Z"),
+                    "vet ikke")
+            )), response.bodyAsText())
     }
 
     @Test
@@ -180,16 +184,13 @@ class ProfilRouteTest {
             localModule(appContext = context)
         }
 
-        val date = LocalDateTime(2022,8, 16, 0, 0, 0)
-        val aiaFeedbackMeldekortForklaring = Feedback(date, "ja")
-
         every {
             context.profilRepositoryImpl.lagreProfil(any(), any())
         }.throws(Exception("database error"))
 
         val response = client.post("/profil") {
             contentType(ContentType.Application.Json)
-            setBody(ProfilJson(aiaFeedbackMeldekortForklaring = aiaFeedbackMeldekortForklaring))
+            setBody("""{"aiaHarMottattEgenvurderingKvittering":true}""")
         }
 
         assertEquals(HttpStatusCode.InternalServerError, response.status)
