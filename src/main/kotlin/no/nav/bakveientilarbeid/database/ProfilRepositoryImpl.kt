@@ -10,7 +10,6 @@ import no.nav.bakveientilarbeid.profil.ProfilJson
 import no.nav.bakveientilarbeid.profil.ProfilRepository
 import java.sql.Connection
 import java.sql.ResultSet
-import java.sql.Types
 
 class ProfilRepositoryImpl(val db: Database) : ProfilRepository {
     override fun hentProfil(brukerId: String): ProfilEntity? {
@@ -51,11 +50,11 @@ fun Connection.hentProfilQuery(brukerId: String): ProfilEntity? {
 }
 
 fun Connection.lagreProfilQuery(brukerId: String, profil: ProfilJson) {
-    val sql = "INSERT INTO profil(bruker_id, profil) VALUES(?,?)"
+    val sql = "INSERT INTO profil(bruker_id, profil) VALUES(?,?::json)"
     return prepareStatement(sql)
         .use {
             it.setString(1, brukerId)
-            it.setObject(2, Json.encodeToString(profil), Types.BLOB)
+            it.setString(2, Json.encodeToString(profil))
             it.executeUpdate()
         }
 }

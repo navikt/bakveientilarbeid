@@ -54,7 +54,12 @@ class ApplicationContext {
         return DefaultUnleash(config, byEnvironment)
     }
 
-    val postgreSqlDatabase = PostgreSqlDatabase(environment)
+    val postgreSqlDatabase = PostgreSqlDatabase(mapOf(
+        "dbUrl" to environment.dbUrl,
+        "dbUser" to environment.dbUser,
+        "dbPassword" to environment.dbPassword
+    ))
+
     val profilRepositoryImpl = ProfilRepositoryImpl(postgreSqlDatabase)
     val profilService = ProfilService(profilRepositoryImpl)
 }

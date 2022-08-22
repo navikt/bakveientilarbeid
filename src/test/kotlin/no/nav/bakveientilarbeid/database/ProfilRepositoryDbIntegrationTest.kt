@@ -1,19 +1,55 @@
 package no.nav.bakveientilarbeid.database
 
 import kotlinx.datetime.Instant
+import no.nav.bakveientilarbeid.config.Flyway
 import no.nav.bakveientilarbeid.profil.Feedback
 import no.nav.bakveientilarbeid.profil.ProfilJson
-import org.junit.AfterClass
+import no.nav.bakveientilarbeid.profil.ProfilRepository
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import javax.sql.DataSource
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProfilRepositoryDbIntegrationTest {
-    val h2Database = H2Database("profil")
-    val db = ProfilRepositoryImpl(h2Database)
+    @Container
+    private val postgreSQLContainer = PostgreSQLContainer<Nothing>("postgres:14")
 
-    @AfterClass
-    fun shutDown() {
-        h2Database.closeConnection()
+    private lateinit var db: ProfilRepository
+    private lateinit var dataSource: DataSource
+
+    private val connection get() = dataSource.connection
+
+
+    @BeforeAll
+    fun beforeAll() {
+        postgreSQLContainer.start()
+        postgreSQLContainer.withUrlParam("user", postgreSQLContainer.username)
+        postgreSQLContainer.withUrlParam("password", postgreSQLContainer.password)
+
+        val postgreSqlDatabase = PostgreSqlDatabase(mapOf(
+            "dbUrl" to postgreSQLContainer.jdbcUrl,
+            "dbUser" to postgreSQLContainer.username,
+            "dbPassword" to postgreSQLContainer.password
+        ))
+
+        dataSource = postgreSqlDatabase.dataSource
+        db = ProfilRepositoryImpl(postgreSqlDatabase)
+
+        Flyway.configure(dataSource).load().migrate()
+    }
+
+    @AfterAll
+    fun afterAll() {
+        postgreSQLContainer.stop()
+    }
+
+    @AfterEach
+    fun resetTablesAfterEachTest() {
+        connection.use {
+            it.prepareStatement("TRUNCATE profil RESTART IDENTITY CASCADE;").execute()
+        }
     }
 
     @Test
