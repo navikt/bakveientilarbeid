@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - aia-profil
+      - aia-profil-api
 
 env:
   IMAGE_BASE: ghcr.io/${{ github.repository }}/bakveientilarbeid
@@ -56,7 +56,7 @@ jobs:
     name: Deploy to dev
     needs: build-and-publish
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/aia-profil'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/aia-profil-api'
     steps:
       - uses: actions/checkout@v1
 

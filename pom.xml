@@ -11,7 +11,7 @@
 
     <properties>
         <main.class>no.nav.bakveientilarbeid.config.BootstrapKt</main.class>
-        <ktor.version>2.0.2</ktor.version>
+        <ktor.version>2.1.0</ktor.version>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.version>1.7.10</kotlin.version>
         <serialization.version>1.4.0-RC</serialization.version>
@@ -32,6 +32,18 @@
             <url>https://maven.pkg.jetbrains.space/public/p/ktor/eap/</url>
         </repository>
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>1.17.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Ktor -->
@@ -131,6 +143,11 @@
             <artifactId>unleash-client-java</artifactId>
             <version>4.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-datetime-jvm</artifactId>
+            <version>0.4.0</version>
+        </dependency>
 
         <!-- NAV -->
         <dependency>
@@ -183,6 +200,12 @@
             <artifactId>ktor-server-tests-jvm</artifactId>
             <version>${ktor.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jetbrains.kotlinx</groupId>
+                    <artifactId>kotlinx-coroutines-bom</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
@@ -213,9 +236,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.1.214</version>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

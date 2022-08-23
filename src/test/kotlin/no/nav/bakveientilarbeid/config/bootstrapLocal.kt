@@ -12,17 +12,20 @@ import io.ktor.server.plugins.cors.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.json.Json
 import no.nav.bakveientilarbeid.dagpenger.dagpengerRoute
 import no.nav.bakveientilarbeid.health.healthRoute
 import no.nav.bakveientilarbeid.meldekort.meldekortRoute
+import no.nav.bakveientilarbeid.profil.profilRoute
 import no.nav.bakveientilarbeid.ptoproxy.ptoProxyRoute
 import java.util.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 @Suppress("unused")
-fun Application.localModule() {
-    val appContext = ApplicationContextLocal()
+fun Application.localModule(
+    appContext: ApplicationContextLocal = ApplicationContextLocal()
+) {
     val environment = Environment()
 
     install(DefaultHeaders)
@@ -58,7 +61,9 @@ fun Application.localModule() {
     }
 
     install(ContentNegotiation) {
-        json()
+        json(Json {
+            this.encodeDefaults = false
+        })
     }
 
     routing {
@@ -70,6 +75,7 @@ fun Application.localModule() {
             appContext.httpClient,
             environment.ptoProxyUrl
         )
+        profilRoute(appContext.authenticatedUserService, appContext.profilService)
     }
 
     configureShutdownHook(appContext.httpClient)

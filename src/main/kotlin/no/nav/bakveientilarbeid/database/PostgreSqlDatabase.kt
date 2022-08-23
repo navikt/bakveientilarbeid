@@ -2,10 +2,10 @@ package no.nav.bakveientilarbeid.database
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import no.nav.bakveientilarbeid.config.Environment
 
-class PostgreSqlDatabase(env: Environment) : Database {
+class PostgreSqlDatabase(env: Map<String, String?>) : Database {
     private val envDataSource: HikariDataSource
+
 
     init {
         envDataSource = createConnection(env)
@@ -15,20 +15,24 @@ class PostgreSqlDatabase(env: Environment) : Database {
         get() = envDataSource
 
 
-    private fun createConnection(env: Environment): HikariDataSource {
+    private fun createConnection(env: Map<String, String?>): HikariDataSource {
+        requireNotNull(env["dbUrl"]) { "database url mangler" }
+        requireNotNull(env["dbUser"]) { "database brukernavn mangler" }
+        requireNotNull(env["dbPassword"]) { "database passord mangler" }
+
         val config = hikariCommonConfig(env).apply {
-            username = env.dbUser
-            password = env.dbPassword
+            username = env["dbUser"]
+            password = env["dbPassword"]
             validate()
         }
         return HikariDataSource(config)
     }
 
 
-    private fun hikariCommonConfig(env: Environment): HikariConfig {
+    private fun hikariCommonConfig(env: Map<String, String?>): HikariConfig {
         val config = HikariConfig().apply {
             driverClassName = "org.postgresql.Driver"
-            jdbcUrl = env.dbUrl
+            jdbcUrl = env["dbUrl"]
             minimumIdle = 1
             maxLifetime = 30001
             maximumPoolSize = 3
