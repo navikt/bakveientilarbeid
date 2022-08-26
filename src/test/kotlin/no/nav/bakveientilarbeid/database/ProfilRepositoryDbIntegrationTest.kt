@@ -3,6 +3,7 @@ package no.nav.bakveientilarbeid.database
 import kotlinx.datetime.Instant
 import no.nav.bakveientilarbeid.config.Flyway
 import no.nav.bakveientilarbeid.profil.Feedback
+import no.nav.bakveientilarbeid.profil.JaEllerNei
 import no.nav.bakveientilarbeid.profil.ProfilJson
 import no.nav.bakveientilarbeid.profil.ProfilRepository
 import org.junit.jupiter.api.*
@@ -61,7 +62,10 @@ class ProfilRepositoryDbIntegrationTest {
     @Test
     fun `returnerer nyeste profil for bruker`() {
         val profilJson1 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(Instant.parse("2021-08-17T14:15:00.000Z"), "nei"))
-        val profilJson2 = ProfilJson(aiaFeedbackMeldekortForklaring = Feedback(Instant.parse("2022-08-17T14:15:00.000Z"), "ja"))
+        val profilJson2 = ProfilJson(
+            aiaFeedbackMeldekortForklaring = Feedback(Instant.parse("2022-08-17T14:15:00.000Z"), "ja"),
+            aiaReaktiveringVisning = JaEllerNei("2022-08-17T14:15:00.000Z", "ja")
+        )
         db.lagreProfil("42", profilJson1)
         db.lagreProfil("42", profilJson2)
 

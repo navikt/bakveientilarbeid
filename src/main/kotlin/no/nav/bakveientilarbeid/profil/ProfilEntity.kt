@@ -7,6 +7,9 @@ import kotlinx.serialization.Serializable
 data class Feedback(val updated: Instant, val valgt: String)
 
 @Serializable
+data class JaEllerNei(val oppdatert: String, val valg: String)
+
+@Serializable
 data class ProfilJson(
     val aiaHarMottattEgenvurderingKvittering: Boolean? = null,
     val aiaFeedbackMeldekortForklaring: Feedback? = null,
@@ -15,7 +18,8 @@ data class ProfilJson(
     val aiaFeedbackSvarFraRegistreringen: Feedback? = null,
     val aiaAvslaattEgenvurdering: Instant? = null,
     val aiaAvslaattEgenvurderingUke12: Instant? = null,
-    val aiaValgtPengestotteVisning: String? = null
+    val aiaValgtPengestotteVisning: String? = null,
+    val aiaReaktiveringVisning: JaEllerNei? = null
 )
 
 data class ProfilEntity(
