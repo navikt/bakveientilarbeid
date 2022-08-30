@@ -11,7 +11,6 @@ data class JaEllerNei(val oppdatert: String, val valg: String)
 
 @Serializable
 data class ProfilJson(
-    val aiaHarMottattEgenvurderingKvittering: Boolean? = null,
     val aiaFeedbackMeldekortForklaring: Feedback? = null,
     val aiaFeedbackHjelpOgStotteForklaring: Feedback? = null,
     val aiaFeedbackHjelpOgStotteForklaringUngdom: Feedback? = null,

@@ -190,7 +190,7 @@ class ProfilRouteTest {
 
         val response = client.post("/profil") {
             contentType(ContentType.Application.Json)
-            setBody("""{"aiaHarMottattEgenvurderingKvittering":true}""")
+            setBody("""{"aiaValgtPengestotteVisning":"dagpenger"}""")
         }
 
         assertEquals(HttpStatusCode.InternalServerError, response.status)
