@@ -21,8 +21,18 @@ fun Route.arbeidssokerRoute(
 ) {
     get("/arbeidssoker") {
         val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
+        val fraOgMedDato = call.request.queryParameters["fraOgMed"]
+        if (fraOgMedDato == null) {
+            call.respond(HttpStatusCode.BadRequest, "Påkrevd query parameter fraOgMed mangler")
+        }
+
+        val tilOgMedDato = call.request.queryParameters["tilOgMed"]
         val underOppfolgingUrl = URL("$PTO_PROXY_URL/veilarboppfolging/api/niva3/underoppfolging")
-        val perioderUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder/niva3?fraOgMed=2010-01-01")
+        val perioderUrl = if (tilOgMedDato != null) {
+            URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder/niva3?fraOgMed=$fraOgMedDato&tilOgMed=$tilOgMedDato")
+        } else {
+            URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder/niva3?fraOgMed=$fraOgMedDato")
+        }
 
         var underoppfolging: Underoppfolging? = null
 
@@ -30,7 +40,7 @@ fun Route.arbeidssokerRoute(
             val oppfolgingsRequest = httpClient.getWithConsumerId<HttpResponse>(underOppfolgingUrl, token)
             underoppfolging = oppfolgingsRequest.body<Underoppfolging>()
         } catch (e: Exception) {
-            logger.info("Feil ved henting av underoppfolging", e)
+            logger.error("Feil ved henting av underoppfolging", e)
         }
 
         var perioder: List<Arbeidssokerperiode> = emptyList<Arbeidssokerperiode>()
@@ -38,7 +48,7 @@ fun Route.arbeidssokerRoute(
             val perioderRequest = httpClient.getWithConsumerId<HttpResponse>(perioderUrl, token)
             perioder = perioderRequest.body<Arbeidssokerperioder>().arbeidssokerperioder
         } catch (e: Exception) {
-            logger.info("Feil ved henting av arbeidssokerPerioder", e)
+            logger.error("Feil ved henting av arbeidssokerPerioder", e)
         }
 
         call.respond(
