@@ -40,7 +40,7 @@ internal class PtoProxyRouteTest(
         )
 
         with(testApplicationEngine) {
-            handleRequest(HttpMethod.Get, "/arbeidssoker") {}.apply {
+            handleRequest(HttpMethod.Get, "/arbeidssoker?fraOgMed=2010-01-01") {}.apply {
                 assertEquals(HttpStatusCode.OK, this.response.status())
 //                assertEquals("underoppfolging", this.response.content)
             }

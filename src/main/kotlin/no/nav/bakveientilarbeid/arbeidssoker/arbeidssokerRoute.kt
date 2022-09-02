@@ -60,7 +60,10 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.hentArbeidssokerperio
         perioder = perioderRequest.body<Arbeidssokerperioder>().arbeidssokerperioder
     } catch (e: Exception) {
         logger.error("Feil ved henting av arbeidssokerPerioder", e)
-        val responseStatus = (e as ResponseException).response.status
+        val responseStatus = when (e) {
+            is ResponseException -> e.response.status
+            else -> HttpStatusCode.InternalServerError
+        }
         return responseStatus to perioder
     }
     return HttpStatusCode.OK to perioder
@@ -79,7 +82,10 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.hentUnderoppfolging(
         underoppfolging = oppfolgingsRequest.body<Underoppfolging>()
     } catch (e: Exception) {
         logger.error("Feil ved henting av underoppfolging", e)
-        val responseStatus = (e as ResponseException).response.status
+        val responseStatus = when (e) {
+            is ResponseException -> e.response.status
+            else -> HttpStatusCode.InternalServerError
+        }
         return responseStatus to null
     }
     return HttpStatusCode.OK to underoppfolging
