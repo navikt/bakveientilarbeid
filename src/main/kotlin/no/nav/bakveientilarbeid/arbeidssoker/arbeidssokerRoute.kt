@@ -22,7 +22,7 @@ fun Route.arbeidssokerRoute(
     get("/arbeidssoker") {
         val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
         val underOppfolgingUrl = URL("$PTO_PROXY_URL/veilarboppfolging/api/niva3/underoppfolging")
-        val perioderUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder/niva3")
+        val perioderUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder/niva3?fraOgMed=2010-01-01")
 
         var underoppfolging: Underoppfolging? = null
 
