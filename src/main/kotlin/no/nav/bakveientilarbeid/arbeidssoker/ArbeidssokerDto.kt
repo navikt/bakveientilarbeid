@@ -1,7 +1,5 @@
 package no.nav.bakveientilarbeid.arbeidssoker
 
-import kotlinx.datetime.Instant
-
 @kotlinx.serialization.Serializable
 data class Underoppfolging(val underOppfolging: Boolean)
 
@@ -9,7 +7,7 @@ data class Underoppfolging(val underOppfolging: Boolean)
 data class Arbeidssokerperioder(val arbeidssokerperioder: List<Arbeidssokerperiode>)
 
 @kotlinx.serialization.Serializable
-data class Arbeidssokerperiode(val fraOgMedDato: Instant, val tilOgMedDato: Instant?)
+data class Arbeidssokerperiode(val fraOgMedDato: String, val tilOgMedDato: String?)
 
 @kotlinx.serialization.Serializable
 data class Arbeidssoker(val underoppfolging: Boolean?, val arbeidssokerperioder: List<Arbeidssokerperiode>)
