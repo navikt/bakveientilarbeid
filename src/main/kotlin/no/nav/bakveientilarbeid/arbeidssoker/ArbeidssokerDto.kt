@@ -10,4 +10,9 @@ data class Arbeidssokerperioder(val arbeidssokerperioder: List<Arbeidssokerperio
 data class Arbeidssokerperiode(val fraOgMedDato: String, val tilOgMedDato: String?)
 
 @kotlinx.serialization.Serializable
-data class Arbeidssoker(val underoppfolging: Boolean?, val arbeidssokerperioder: List<Arbeidssokerperiode>)
+data class Arbeidssoker(
+    val underoppfolging: Boolean?,
+    val oppfolgingStatus: Int,
+    val arbeidssokerperioder: List<Arbeidssokerperiode>,
+    val arbeidssokerperioderStatus: Int
+)

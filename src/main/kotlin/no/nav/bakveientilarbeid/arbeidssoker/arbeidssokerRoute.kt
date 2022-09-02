@@ -2,6 +2,7 @@ package no.nav.bakveientilarbeid.arbeidssoker
 
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.plugins.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -27,8 +28,10 @@ fun Route.arbeidssokerRoute(
         call.respond(
             HttpStatusCode.OK,
             Arbeidssoker(
-                underoppfolging = underoppfolging?.underOppfolging,
-                arbeidssokerperioder = perioder
+                underoppfolging = underoppfolging.second?.underOppfolging,
+                oppfolgingStatus = underoppfolging.first.value,
+                arbeidssokerperioder = perioder.second,
+                arbeidssokerperioderStatus = perioder.first.value
             )
         )
     }
@@ -38,7 +41,7 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.hentArbeidssokerperio
     PTO_PROXY_URL: String,
     httpClient: HttpClient,
     token: AccessToken
-): List<Arbeidssokerperiode> {
+): Pair<HttpStatusCode, List<Arbeidssokerperiode>> {
     val fraOgMedDato = call.request.queryParameters["fraOgMed"]
     if (fraOgMedDato == null) {
         call.respond(HttpStatusCode.BadRequest, "Påkrevd query parameter fraOgMed mangler")
@@ -57,15 +60,17 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.hentArbeidssokerperio
         perioder = perioderRequest.body<Arbeidssokerperioder>().arbeidssokerperioder
     } catch (e: Exception) {
         logger.error("Feil ved henting av arbeidssokerPerioder", e)
+        val responseStatus = (e as ResponseException).response.status
+        return responseStatus to perioder
     }
-    return perioder
+    return HttpStatusCode.OK to perioder
 }
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.hentUnderoppfolging(
     httpClient: HttpClient,
     PTO_PROXY_URL: String,
     token: AccessToken
-): Underoppfolging? {
+): Pair<HttpStatusCode, Underoppfolging?> {
     val underOppfolgingUrl = URL("$PTO_PROXY_URL/veilarboppfolging/api/niva3/underoppfolging")
     var underoppfolging: Underoppfolging? = null
 
@@ -74,6 +79,8 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.hentUnderoppfolging(
         underoppfolging = oppfolgingsRequest.body<Underoppfolging>()
     } catch (e: Exception) {
         logger.error("Feil ved henting av underoppfolging", e)
+        val responseStatus = (e as ResponseException).response.status
+        return responseStatus to null
     }
-    return underoppfolging
+    return HttpStatusCode.OK to underoppfolging
 }
