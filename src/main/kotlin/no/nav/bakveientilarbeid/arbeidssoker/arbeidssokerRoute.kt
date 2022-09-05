@@ -22,16 +22,22 @@ fun Route.arbeidssokerRoute(
 ) {
     get("/arbeidssoker") {
         val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
-        val perioder = hentArbeidssokerperioder(PTO_PROXY_URL, httpClient, token)
-        val underoppfolging = hentUnderoppfolging(httpClient, PTO_PROXY_URL, token)
 
-        call.respond(
-            HttpStatusCode.OK,
-            Arbeidssoker(
-                underoppfolging = UnderoppfolgingMedStatus(underoppfolging.first.value, underoppfolging.second?.underOppfolging),
-                arbeidssokerperioder = ArbeidssokerperiodeMedStatus(perioder.first.value, perioder.second)
+        if (call.request.queryParameters["fraOgMed"] == null) {
+            call.respond(HttpStatusCode.BadRequest, "Påkrevd query parameter fraOgMed mangler")
+        } else {
+            val perioder = hentArbeidssokerperioder(PTO_PROXY_URL, httpClient, token)
+            val underoppfolging = hentUnderoppfolging(httpClient, PTO_PROXY_URL, token)
+
+            call.respond(
+                HttpStatusCode.OK,
+                Arbeidssoker(
+                    underoppfolging = UnderoppfolgingMedStatus(underoppfolging.first.value, underoppfolging.second?.underOppfolging),
+                    arbeidssokerperioder = ArbeidssokerperiodeMedStatus(perioder.first.value, perioder.second)
+                )
             )
-        )
+        }
+
     }
 }
 
@@ -41,10 +47,6 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.hentArbeidssokerperio
     token: AccessToken
 ): Pair<HttpStatusCode, List<Arbeidssokerperiode>> {
     val fraOgMedDato = call.request.queryParameters["fraOgMed"]
-    if (fraOgMedDato == null) {
-        call.respond(HttpStatusCode.BadRequest, "Påkrevd query parameter fraOgMed mangler")
-    }
-
     val tilOgMedDato = call.request.queryParameters["tilOgMed"]
     val perioderUrl = if (tilOgMedDato != null) {
         URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder/niva3?fraOgMed=$fraOgMedDato&tilOgMed=$tilOgMedDato")

@@ -30,7 +30,7 @@ internal class PtoProxyRouteTest(
     }
 
     @Test
-    fun `GET arbeidssoker returnerer 200 og body fra underoppfolging`() {
+    fun `GET arbeidssoker returnerer 200 med underoppfolging og arbeidssokerperioder`() {
         stubFor(
             WireMock.get(WireMock.urlPathMatching(".*/mock-ptoproxy/veilarboppfolging/api/niva3/underoppfolging.*"))
                 .willReturn(
@@ -50,6 +50,44 @@ internal class PtoProxyRouteTest(
                 assertEquals(HttpStatusCode.OK, this.response.status())
                 assertEquals(
                     """{"underoppfolging":{"status":200,"underoppfolging":true},"arbeidssokerperioder":{"status":200,"arbeidssokerperioder":[{"fraOgMedDato":"2022-01-01","tilOgMedDato":null}]}}""",
+                    this.response.content
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `GET returnerer 400 hvis fraOgMed-query parameter mangler`() {
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/arbeidssoker") {}.apply {
+                assertEquals(HttpStatusCode.BadRequest, this.response.status())
+            }
+        }
+    }
+
+    @Test
+    fun `GET returnerer 200 med feil i status i responsen`() {
+        stubFor(
+            WireMock.get(WireMock.urlPathMatching(".*/mock-ptoproxy/veilarboppfolging/api/niva3/underoppfolging.*"))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withStatus(HttpStatusCode.InternalServerError.value)
+                )
+        )
+
+        stubFor(
+            WireMock.get(WireMock.urlPathMatching(".*/mock-ptoproxy/veilarbregistrering/api/arbeidssoker/perioder/niva3.*"))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withStatus(HttpStatusCode.InternalServerError.value)
+                )
+        )
+
+        with(testApplicationEngine) {
+            handleRequest(HttpMethod.Get, "/arbeidssoker?fraOgMed=2010-01-01") {}.apply {
+                assertEquals(HttpStatusCode.OK, this.response.status())
+                assertEquals(
+                    """{"underoppfolging":{"status":500,"underoppfolging":null},"arbeidssokerperioder":{"status":500,"arbeidssokerperioder":[]}}""",
                     this.response.content
                 )
             }
