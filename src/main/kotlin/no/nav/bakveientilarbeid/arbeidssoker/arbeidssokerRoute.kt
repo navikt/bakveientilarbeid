@@ -28,10 +28,8 @@ fun Route.arbeidssokerRoute(
         call.respond(
             HttpStatusCode.OK,
             Arbeidssoker(
-                underoppfolging = underoppfolging.second?.underOppfolging,
-                oppfolgingStatus = underoppfolging.first.value,
-                arbeidssokerperioder = perioder.second,
-                arbeidssokerperioderStatus = perioder.first.value
+                underoppfolging = UnderoppfolgingMedStatus(underoppfolging.first.value, underoppfolging.second?.underOppfolging),
+                arbeidssokerperioder = ArbeidssokerperiodeMedStatus(perioder.first.value, perioder.second)
             )
         )
     }
