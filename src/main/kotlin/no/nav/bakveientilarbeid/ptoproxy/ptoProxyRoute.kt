@@ -39,12 +39,6 @@ fun Route.ptoProxyRoute(
         handleRequest(call, httpClient, token, underOppfolgingUrl, logger)
     }
 
-    get("/standard-innsats") {
-        val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
-        val standardInnsatsUrl = URL("$PTO_PROXY_URL/veilarboppfolging/api/profilering/standard-innsats")
-        handleRequest(call, httpClient, token, standardInnsatsUrl, logger)
-    }
-
     get("/startregistrering") {
         val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
         val startRegistreringUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/startregistrering")
@@ -55,6 +49,12 @@ fun Route.ptoProxyRoute(
         val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
         val registreringUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/registrering")
         handleRequest(call, httpClient, token, registreringUrl, logger)
+    }
+
+    get("/standard-innsats") {
+        val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
+        val standardInnsatsUrl = URL("$PTO_PROXY_URL/veilarbregistrering/api/profilering/standard-innsats")
+        handleRequest(call, httpClient, token, standardInnsatsUrl, logger)
     }
 
     get("/dialog/antallUleste") {
