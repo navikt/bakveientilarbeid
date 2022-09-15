@@ -37,16 +37,26 @@ fun Route.arbeidssokerRoute(
                 )
             )
         }
+    }
 
+    get("/er-arbeidssoker") {
+        val token = AccessToken(authenticatedUserService.getAuthenticatedUser(call).token)
+        val perioder = hentArbeidssokerperioder(PTO_PROXY_URL, httpClient, token, "2020-01-01")
+        val underoppfolging = hentUnderoppfolging(httpClient, PTO_PROXY_URL, token)
+        val erUnderoppfolging = underoppfolging.second?.underOppfolging ?: false
+        val erArbeidssoker = erUnderoppfolging || perioder.second.isNotEmpty()
+
+        call.respond(HttpStatusCode.OK, ErArbeidssoker(erArbeidssoker))
     }
 }
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.hentArbeidssokerperioder(
     PTO_PROXY_URL: String,
     httpClient: HttpClient,
-    token: AccessToken
+    token: AccessToken,
+    fraOgMed: String? = null
 ): Pair<HttpStatusCode, List<Arbeidssokerperiode>> {
-    val fraOgMedDato = call.request.queryParameters["fraOgMed"]
+    val fraOgMedDato = fraOgMed ?: call.request.queryParameters["fraOgMed"]
     val tilOgMedDato = call.request.queryParameters["tilOgMed"]
     val perioderUrl = if (tilOgMedDato != null) {
         URL("$PTO_PROXY_URL/veilarbregistrering/api/arbeidssoker/perioder/niva3?fraOgMed=$fraOgMedDato&tilOgMed=$tilOgMedDato")

@@ -20,3 +20,6 @@ data class Arbeidssoker(
     val underoppfolging: UnderoppfolgingMedStatus,
     val arbeidssokerperioder: ArbeidssokerperiodeMedStatus
 )
+
+@kotlinx.serialization.Serializable
+data class ErArbeidssoker(val erArbeidssoker: Boolean)
