@@ -6,7 +6,7 @@ metadata:
   labels:
     team: paw
 spec:
-  image: {{image}}
+  image: { { image } }
   port: 8080
   liveness:
     path: /bakveientilarbeid/internal/isAlive
@@ -15,8 +15,8 @@ spec:
     path: /bakveientilarbeid/internal/isReady
     initialDelay: 10
   replicas:
-    min: 2
-    max: 4
+    min: 0
+    max: 0
   tokenx:
     enabled: true
   ingresses:
@@ -55,6 +55,7 @@ spec:
           namespace: meldekort
   gcp:
     sqlInstances:
-      - type: POSTGRES_14
+      - cascadingDelete: true
+        type: POSTGRES_14
         databases:
           - name: bakveientilarbeid-dev
