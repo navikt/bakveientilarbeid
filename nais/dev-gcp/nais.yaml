@@ -6,7 +6,7 @@ metadata:
   labels:
     team: paw
 spec:
-  image: { { image } }
+  image: {{image}}
   port: 8080
   liveness:
     path: /bakveientilarbeid/internal/isAlive
@@ -55,7 +55,7 @@ spec:
           namespace: meldekort
   gcp:
     sqlInstances:
-      - cascadingDelete: true
-        type: POSTGRES_14
+      - type: POSTGRES_14
+        cascadingDelete: true
         databases:
           - name: bakveientilarbeid-dev
